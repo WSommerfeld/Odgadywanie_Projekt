@@ -1,3 +1,4 @@
+import sys
 import tkinter as tk
 from tkinter import messagebox
 import gaming
@@ -10,6 +11,7 @@ class Menu:
         self.root.geometry('500x500')
         self.root.resizable(False, False)
         self.root.title('Odgadywanie')
+
 
         comp_button = tk.Button(self.root, text="Graj z komputerem", command=self.computer,padx=50,pady=50)
         comp_button.pack(padx=50,pady=50)
@@ -51,6 +53,8 @@ class PVPGUI:
         self.root.geometry('500x500')
         self.root.resizable(False, False)
 
+        self.root.protocol("WM_DELETE_WINDOW", self.close)
+
         while(self.gaming):
             self.gracz1()
             self.gracz2()
@@ -66,6 +70,11 @@ class PVPGUI:
         messagebox.showinfo("Wygrana!", "Brawo! Zgadłeś szyfr gracza nr 2.")
         self.root.destroy()
         Menu()
+
+    def close(self):
+        if messagebox.askokcancel("Zakończ grę", "Czy na pewno chcesz zakończyć rozgrywkę?"):
+            self.root.destroy()
+            sys.exit(0)
 
     def gracz1(self):
         self.root.title("Zgaduj!")
