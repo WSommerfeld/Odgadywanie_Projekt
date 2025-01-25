@@ -3,6 +3,8 @@ import gaming
 def main():
 
     #rozgrywka w GUI
+    print("maja")
+    return
     GUI.Menu()
 
     #rozgrywka w konsoli456
