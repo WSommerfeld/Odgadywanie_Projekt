@@ -2,8 +2,11 @@ import GUI
 import gaming
 def main():
 
-
+    #rozgrywka w GUI
     GUI.Menu()
+
+    #rozgrywka w konsoli
+    # gaming.cmdPVP(4)
     '''
     #test string-->pozycje
     pozycje=gaming.initpozycje(5)
@@ -19,7 +22,7 @@ def main():
     gaming.PVPliczby(liczby,"1,1,1,1,3,1,1,1")
     print(liczby)
     '''
-    #gaming.cmdPVP(4)
+
 
 if __name__ == '__main__':
     main()
