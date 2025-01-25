@@ -3,7 +3,7 @@
 inicjalizacja tablicy pozycji na których znajduje
 się właściwa cyfra
 '''
-from debugpy.common.timestamp import current
+
 
 
 def initpozycje(n):
