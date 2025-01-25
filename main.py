@@ -5,7 +5,7 @@ def main():
     #rozgrywka w GUI
     GUI.Menu()
 
-    #rozgrywka w konsoli
+    #rozgrywka w konsoli456
     # gaming.cmdPVP(4)
     '''
     #test string-->pozycje

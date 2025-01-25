@@ -10,8 +10,8 @@ def initpozycje(n):
     pozycje = [False for i in range(n)]
     return pozycje
 
-def initliczby(n):
-    liczby = [0 for i in range(n+1)]
+def initliczby():
+    liczby = [0 for i in range(10)]
     return liczby
 
 
@@ -94,7 +94,7 @@ def cmdPVP(n):
 
     traf="traf"
     pozycje = initpozycje(n)
-    liczby = initliczby(n)
+    liczby = initliczby()
     gaming=True
     count=0
     while gaming:

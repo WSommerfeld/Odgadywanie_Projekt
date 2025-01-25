@@ -23,7 +23,7 @@ class Menu:
         self.root.mainloop()
 
     def computer(self):
-        print("Gra z komputerem")
+      #  print("Gra z komputerem")
         self.root.destroy()
         computerGUI()
 
@@ -44,13 +44,13 @@ class PVPGUI:
         self.guessed=["_" for i in range(int(self.length))]
         self.traf = "traf"
         self.pozycje = gaming.initpozycje(int(self.length))
-        self.liczby = gaming.initliczby(int(self.length))
+        self.liczby = gaming.initliczby()
         self.gaming = True
         self.count = 0
 
-        print(self.length)
+        #print(self.length)
         self.root = tk.Tk()
-        self.root.geometry('500x500')
+        self.root.geometry('500x600')
         self.root.resizable(False, False)
 
         self.root.protocol("WM_DELETE_WINDOW", self.close)
@@ -83,7 +83,7 @@ class PVPGUI:
         guessed_var.set(str(self.guessed))
         lista = " "
         liczbyvar = tk.StringVar()
-        for i in range(int(self.length)+1):
+        for i in range(10):
             if self.liczby[i] != 0:
                 lista = lista + str(i) + " wystąpiło " + str(self.liczby[i]) +" razy, "
         liczbyvar.set(lista)
@@ -125,7 +125,7 @@ class PVPGUI:
         self.root.title("Sprawdź!")
 
         self.pozycje=initpozycje(int(self.length))
-        self.liczby=initliczby(int(self.length))
+        self.liczby=initliczby()
 
 
         text_var = tk.StringVar()
@@ -166,6 +166,10 @@ class PVPGUI:
                                     command=self.setpozycje,padx=50,pady=50)
         self.setp_button.pack(pady=10)
 
+        self.correctbutton = tk.Button(self.root, font=('Arial 12'), text="Gracz 1 zgadł mój szyfr",
+                                    command=self.correct,padx=10,pady=10)
+        self.correctbutton.pack(pady=10)
+
         self.root.mainloop()
 
     def setpozycje(self):
@@ -178,6 +182,11 @@ class PVPGUI:
             widget.pack_forget()
         self.root.quit()
 
+    def correct(self):
+        self.gaming=False
+        for widget in self.root.winfo_children():
+            widget.pack_forget()
+        self.root.quit()
 
 
 class computerGUI:
