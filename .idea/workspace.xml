@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f789c96f-43a3-47ab-92ea-48fc4c529e97" name="Changes" comment="" />
+    <list default="true" id="f789c96f-43a3-47ab-92ea-48fc4c529e97" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/testymaja.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -26,12 +30,12 @@
     &quot;assignee&quot;: &quot;WSommerfeld&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/WSommerfeld/Odgadywanie_Projekt.git",
-    "accountId": "e4016dc2-db16-4570-8bd8-357b47a30418"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/WSommerfeld/Odgadywanie_Projekt.git&quot;,
+    &quot;accountId&quot;: &quot;e4016dc2-db16-4570-8bd8-357b47a30418&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
 }</component>
@@ -46,6 +50,7 @@
     "Python.GUI.executor": "Run",
     "Python.gaming.executor": "Run",
     "Python.main.executor": "Run",
+    "Python.testymaja.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "Maja",
@@ -55,6 +60,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "aDefault",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
     "vue.rearranger.settings.migration": "true"
   }
@@ -81,7 +87,8 @@
       <workItem from="1737261357241" duration="98000" />
       <workItem from="1737261799345" duration="3587000" />
       <workItem from="1737823043700" duration="1148000" />
-      <workItem from="1737830875250" duration="112000" />
+      <workItem from="1737830875250" duration="2372000" />
+      <workItem from="1737833293862" duration="6438000" />
     </task>
     <servers />
   </component>
@@ -89,8 +96,9 @@
     <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Odgadywanie_Projekt$gaming.coverage" NAME="gaming Coverage Results" MODIFIED="1737823656249" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Odgadywanie_Projekt$main.coverage" NAME="main Coverage Results" MODIFIED="1737824199283" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Odgadywanie_Projekt$GUI.coverage" NAME="GUI Coverage Results" MODIFIED="1737823870852" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Odgadywanie_Projekt$gaming.coverage" NAME="gaming Coverage Results" MODIFIED="1737831063759" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Odgadywanie_Projekt$main.coverage" NAME="main Coverage Results" MODIFIED="1737856624870" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Odgadywanie_Projekt$testymaja.coverage" NAME="testymaja Coverage Results" MODIFIED="1737856303343" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

@@ -1,14 +1,17 @@
 import GUI
+import random
 import gaming
+import testymaja
 def main():
 
-    #rozgrywka w GUI
-    print("maja")
-    return
-    GUI.Menu()
-
+    #rozgrywka w GUI#
+    #GUI.Menu()
     #rozgrywka w konsoli456
-    # gaming.cmdPVP(4)
+    #gaming.cmdPVP(4)
+
+    gaming.gra_z_komputerem()
+
+
     '''
     #test string-->pozycje
     pozycje=gaming.initpozycje(5)
@@ -24,7 +27,6 @@ def main():
     gaming.PVPliczby(liczby,"1,1,1,1,3,1,1,1")
     print(liczby)
     '''
-
 
 if __name__ == '__main__':
     main()
