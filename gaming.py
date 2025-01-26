@@ -1,14 +1,17 @@
+import random
+
 
 '''
 inicjalizacja tablicy pozycji na których znajduje
 się właściwa cyfra
 '''
-from debugpy.common.timestamp import current
-
-
 def initpozycje(n):
     pozycje = [False for i in range(n)]
     return pozycje
+
+'''
+inicjalizacja tablicy powtórzeń cyfr
+'''
 
 def initliczby():
     liczby = [0 for i in range(10)]
@@ -134,6 +137,49 @@ def cmdPVP(n):
             gaming = False
             print("WYGRANO")
             print("Prawidłowy kod to " + str(guessed))
+
+
+
+
+def autoguessing(n, correctszyfr):
+
+    correct  = ["_" for i in range(n)]
+    for i in range(n):
+        correct[i]=correctszyfr[i]
+
+    cyfry = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    liczbydowstawienia = []
+    bestszyfr  = ["_" for i in range(n)]
+    pozycje = initpozycje(n)
+    liczby = initliczby()
+    x=0
+    while bestszyfr != correct:
+
+        for i in range(9):
+            for j in range(int(liczby[i])):
+                liczbydowstawienia.append(str(i))
+
+        for i in range(n):
+            if pozycje[i] == False:
+                if liczbydowstawienia.count(i)!=0:
+                    print(liczbydowstawienia)
+                    wstaw = random.choice(liczbydowstawienia)
+                    liczbydowstawienia.remove(wstaw)
+                    bestszyfr[i] = wstaw
+                else:
+                    bestszyfr[i] = random.choice(cyfry)
+
+
+
+
+
+
+
+
+        check(correctszyfr,bestszyfr,n,pozycje, liczby)
+        x+=1
+        print(x,": ",bestszyfr)
+
 
 
 
