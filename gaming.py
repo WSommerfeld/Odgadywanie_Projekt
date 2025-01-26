@@ -136,8 +136,43 @@ def cmdPVP(n):
             print("Prawidłowy kod to " + str(guessed))
 
 
-def gra_z_komputerem():
-    n = 4  # długość szyfru
+
+
+
+def pasuje_do_oceny(mozliwosci, trafione_miejsca, n, odgadniecie, trafione_cyfry, odrzucone_cyfry, pewne_cyfry):
+
+    for kandydat in mozliwosci:
+        # sprawdzenie trafionych miejsc
+        for pos in range(n):
+            if pos in trafione_miejsca and kandydat[pos] != odgadniecie[pos]:
+                return False
+            if pos not in trafione_miejsca and kandydat[pos] == odgadniecie[pos]:
+                return False
+
+    # sprawdzenie, czy trafione cyfry są obecne, ale nie na złych miejscach
+        for cyfra in trafione_cyfry:
+            if cyfra not in kandydat:
+                return False
+            if cyfra in [kandydat[pos] for pos in trafione_miejsca]:
+                return False
+
+    # wykluczenie cyfr, które na pewno nie występują
+        if any(cyfra in odrzucone_cyfry for cyfra in kandydat):
+            return False
+
+    # sprawdzenie, czy kandydat zawiera wszystkie cyfry w `pewne_cyfry`
+        if not all(cyfra in kandydat for cyfra in pewne_cyfry):
+            return False
+
+        return True
+
+
+'''
+1. podział na osobne funkcje
+2. wpisywanie po przecinku (split)
+'''
+def gra_z_komputerem(n):
+    #n = 4  # długość szyfru
     print("Długość szyfru:", n)
     input("Wymyśl szyfr i zapamiętaj go! (Nie podawaj go komputerowi!)")
 
@@ -178,35 +213,12 @@ def gra_z_komputerem():
         odrzucone_cyfry.update(cyfra for cyfra in odgadniecie if cyfra not in pewne_cyfry)
 
         # filtrowanie możliwych szyfrów
-        def pasuje_do_oceny(kandydat):
-            # sprawdzenie trafionych miejsc
-            for pos in range(n):
-                if pos in trafione_miejsca and kandydat[pos] != odgadniecie[pos]:
-                    return False
-                if pos not in trafione_miejsca and kandydat[pos] == odgadniecie[pos]:
-                    return False
-
-            # sprawdzenie, czy trafione cyfry są obecne, ale nie na złych miejscach
-            for cyfra in trafione_cyfry:
-                if cyfra not in kandydat:
-                    return False
-                if cyfra in [kandydat[pos] for pos in trafione_miejsca]:
-                    return False
-
-            # wykluczenie cyfr, które na pewno nie występują
-            if any(cyfra in odrzucone_cyfry for cyfra in kandydat):
-                return False
-
-            # sprawdzenie, czy kandydat zawiera wszystkie cyfry w `pewne_cyfry`
-            if not all(cyfra in kandydat for cyfra in pewne_cyfry):
-                return False
-
-            return True
+        pasuje_do_oceny( mozliwosci,trafione_miejsca, n, odgadniecie, trafione_cyfry, odrzucone_cyfry, pewne_cyfry)
 
         # pokaż możliwości przed filtrowaniem
         print(f"Przed filtrowaniem: pozostało {len(mozliwosci)} możliwości.")
 
-        mozliwosci = [mozliwosc for mozliwosc in mozliwosci if pasuje_do_oceny(mozliwosc)]
+        mozliwosci = [mozliwosc for mozliwosc in mozliwosci if pasuje_do_oceny(mozliwosci, trafione_miejsca, n, odgadniecie, trafione_cyfry, odrzucone_cyfry, pewne_cyfry)]
 
         # pokaż po filtrowaniu
         print(f"Po filtrowaniu: pozostało {len(mozliwosci)} możliwości.")
