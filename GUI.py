@@ -19,6 +19,11 @@ class Menu:
         pvp_button = tk.Button(self.root, text="Graj z człowiekiem", command=self.PVP,padx=50,pady=50)
         pvp_button.pack(padx=0,pady=50)
 
+        try:
+            if(sys.argv[0]!=None and sys.argv[1]!=None):
+                if sys.argv[0]=="pvp" or sys.argv[0]=="PVP":
+                    self.PVP()
+        exep
 
         self.root.mainloop()
 

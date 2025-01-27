@@ -3,9 +3,9 @@ import gaming
 def main():
 
     #rozgrywka w GUI
-    #GUI.Menu()
+    GUI.Menu()
 
-    gaming.autoguessing(5,"21371")
+    #gaming.autoguessing(5,"21371")
 
     #rozgrywka w konsoli456
     # gaming.cmdPVP(4)
