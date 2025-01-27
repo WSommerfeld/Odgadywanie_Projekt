@@ -1,9 +1,26 @@
+import sys
 import GUI
 import gaming
 def main():
 
-    #rozgrywka w GUI
-    GUI.Menu()
+
+    '''
+    obsługa linii komend
+    python main.py dlugość_szyfru rodzaj_rozgrywki
+    rodzaj_rozgrywki € {"pvp". "PVP"} 
+    '''
+    code_length=-1
+    type = "x"
+    try:
+        code_length=int(sys.argv[1])
+        type = sys.argv[2]
+    except:
+        code_length=-1
+        type = "x"
+
+
+    # rozgrywka w GUI
+    GUI.Menu(code_length, type)
 
     #gaming.autoguessing(5,"21371")
 

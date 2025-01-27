@@ -6,12 +6,14 @@ from gaming import PVPpozycje, updateguessed, PVPliczby, initpozycje, initliczby
 
 
 class Menu:
-    def __init__(self):
+    def __init__(self, arglength, argtype):
         self.root = tk.Tk()
         self.root.geometry('500x500')
         self.root.resizable(False, False)
         self.root.title('Odgadywanie')
 
+        self.arglength = arglength
+        self.argtype = argtype
 
         comp_button = tk.Button(self.root, text="Graj z komputerem", command=self.computer,padx=50,pady=50)
         comp_button.pack(padx=50,pady=50)
@@ -19,11 +21,8 @@ class Menu:
         pvp_button = tk.Button(self.root, text="Graj z człowiekiem", command=self.PVP,padx=50,pady=50)
         pvp_button.pack(padx=0,pady=50)
 
-        try:
-            if(sys.argv[0]!=None and sys.argv[1]!=None):
-                if sys.argv[0]=="pvp" or sys.argv[0]=="PVP":
-                    self.PVP()
-        exep
+        if self.arglength>0 and (self.argtype=="pvp" or self.argtype=="PVP"):
+            self.PVP()
 
         self.root.mainloop()
 
@@ -35,15 +34,19 @@ class Menu:
     def PVP(self):
         print("Gra z człowiekiem")
         self.root.destroy()
-        PVPGUI()
+        PVPGUI(self.arglength)
 
 class PVPGUI:
 
-    def __init__(self):
+    def __init__(self, arglength):
         self.length=0
-        self.length = rules().length
-        if self.length==0 or self.length=="" or int(self.length)<=0:
-            return
+        self.arglength = arglength
+        if self.arglength>0:
+            self.length = self.arglength
+        else:
+            self.length = rules().length
+            if self.length == 0 or self.length == "" or int(self.length) <= 0:
+                return
 
         self.iterations=0
         self.guessed=["_" for i in range(int(self.length))]
@@ -74,7 +77,7 @@ class PVPGUI:
 
         messagebox.showinfo("Wygrana!", "Brawo! Zgadłeś szyfr gracza nr 2.")
         self.root.destroy()
-        Menu()
+        Menu(-1,"x")
 
     def close(self):
         if messagebox.askokcancel("Zakończ grę", "Czy na pewno chcesz zakończyć rozgrywkę?"):
