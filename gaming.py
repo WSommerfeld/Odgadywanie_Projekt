@@ -139,6 +139,55 @@ def cmdPVP(n):
             print("Prawidłowy kod to " + str(guessed))
 
 
+def cmdPlayerGuessing(n):
+    iterations = 0
+    print("Długość kodu: " + str(n))
+    guessed = ["_" for i in range(n)]
+
+    traf = "traf"
+    pozycje = initpozycje(n)
+    liczby = initliczby()
+    gaming = True
+    count = 0
+
+    correct_code = random.randint(1,n)
+
+    while gaming:
+
+        print("GRACZ 1")
+        if iterations > 0:
+            print(guessed)
+            print("Liczby nie na swoich pozycjach:")
+            for i in range(n):
+                if liczby[i] != 0:
+                    print(str(i) + " występuje jeszcze " + str(liczby[i]) + " razy")
+
+        print("Zgaduj:")
+        traf = input()
+
+        if len(traf) > n:
+            print("za długi!")
+            continue
+
+        #tu trzeba zrobić porównywanie itd
+        PVPpozycje(pozycje, input())
+
+        print("Podaj cyfry występujące w cyfrze, nie na swoim miejscu:")
+        PVPliczby(liczby, input())
+
+        updateguessed(guessed, pozycje, traf)
+
+        iterations += 1
+
+        for i in range(n):
+            count = 0
+            if guessed[i] == "_":
+                count += 1
+
+        if count == 0:
+            gaming = False
+            print("WYGRANO")
+            print("Prawidłowy kod to " + str(guessed))
 
 
 def autoguessing(n, correctszyfr):
