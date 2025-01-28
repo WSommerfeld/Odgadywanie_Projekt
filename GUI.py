@@ -118,6 +118,11 @@ class PVPGUI:
 
     def guess(self):
         self.traf = self.entry.get()
+        try:
+            x = int(self.traf)
+        except ValueError:
+            messagebox.showerror("Format szyfru", "Szyfr powinien składać się z cyfr!")
+            return
 
         if self.traf==None or len(self.traf)<0 or len(self.traf)!=int(self.length):
             messagebox.showerror("Długość szyfru", "Proszę podać szyfr o prawidłowej długości")
@@ -240,7 +245,12 @@ class rules:
     def start(self):
         self.length =self.entry.get()
 
-        if self.length==0 or self.length=="" or int(self.length)<=0:
+        try:
+
+            if self.length==0 or self.length=="" or int(self.length)<=0:
+                messagebox.showerror("Błąd podania długości", "Proszę podać prawidłową długość szyfru!")
+                return
+        except ValueError:
             messagebox.showerror("Błąd podania długości", "Proszę podać prawidłową długość szyfru!")
             return
         self.root.destroy()
