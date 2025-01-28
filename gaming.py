@@ -169,7 +169,9 @@ def cmdPlayerGuessing(n):
             print("za długi!")
             continue
 
-        #tu trzeba zrobić porównywanie itd
+        #tu trzeba pozmieniac
+        print("GRACZ 2")
+        print("Podaj pozycje na których jest prawidłowa cyfra:")
         PVPpozycje(pozycje, input())
 
         print("Podaj cyfry występujące w cyfrze, nie na swoim miejscu:")

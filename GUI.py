@@ -202,9 +202,20 @@ class computerGUI:
         self.root = tk.Tk()
         self.root.geometry('500x500')
         self.root.resizable(False, False)
-        self.root.title('Odgadywanie')
+        self.root.title('Gra z komputerem')
+
+        self.player_guess = tk.Button(self.root, font=('Arial 16'), text="Gracz zgaduje", command=self.playerguess,padx=50,pady=50)
+        self.player_guess.pack(pady=10)
+
+        self.computer_guess = tk.Button(self.root, font=('Arial 16'), text="Komputer zgaduje", command=self.computerguess,padx=50,pady=50)
+        self.computer_guess.pack(pady=10)
 
         self.root.mainloop()
+    def playerguess(self):
+        print("start")
+
+    def computerguess(self):
+        print("start")
 
 class rules:
     def __init__(self):
