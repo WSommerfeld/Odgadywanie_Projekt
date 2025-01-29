@@ -7,8 +7,9 @@ def main():
     '''
     obsługa linii komend
     python main.py dlugość_szyfru rodzaj_rozgrywki
-    rodzaj_rozgrywki € {"pvp". "PVP"} 
+    rodzaj_rozgrywki € {"pvp", "PVP"}
     '''
+
     code_length=-1
     type = "x"
     try:
