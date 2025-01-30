@@ -33,6 +33,3 @@ def play_game(n):
         else:
             print(f"Poprawnych cyfr na wlasciwych miejscach: {correct_position}")
             print(f"Poprawnych cyfr na zlych miejscach: {correct_digit}")
-
-"""Uruchomienie gry dla n=4-cyfrowego szyfru"""
-play_game(4)
