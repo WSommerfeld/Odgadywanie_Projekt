@@ -9,6 +9,7 @@ class Menu:
     def __init__(self, arglength, argtype):
         self.root = tk.Tk()
         self.root.geometry('500x500')
+        self.root.iconbitmap("icon.ico")
         self.root.resizable(False, False)
         self.root.title('Odgadywanie')
 
@@ -58,6 +59,7 @@ class PVPGUI:
 
         #print(self.length)
         self.root = tk.Tk()
+        self.root.iconbitmap("icon.ico")
         self.root.geometry('500x600')
         self.root.resizable(False, False)
 
@@ -206,6 +208,7 @@ class computerGUI:
     def __init__(self):
         self.root = tk.Tk()
         self.root.geometry('500x500')
+        self.root.iconbitmap("icon.ico")
         self.root.resizable(False, False)
         self.root.title('Gra z komputerem')
 
@@ -227,6 +230,7 @@ class rules:
         self.length = 0
         self.root = tk.Tk()
         self.root.geometry('500x500')
+        self.root.iconbitmap("icon.ico")
         self.root.resizable(False, False)
         self.root.title('Długość szyfru')
 
