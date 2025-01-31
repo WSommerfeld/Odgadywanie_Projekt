@@ -1,4 +1,4 @@
-Michał Kasjaniuk ?indeks?
-Maja Kołakowska ?indeks?
+Michał Kasjaniuk 287392
+Maja Kołakowska 287360
 Marcin Lasak 272886
-Filip Urbański ?indeks?
+Filip Urbański 287355
