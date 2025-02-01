@@ -1,3 +1,4 @@
+import random
 import sys
 import tkinter as tk
 from tkinter import messagebox
@@ -25,17 +26,24 @@ class Menu:
         if self.arglength>0 and (self.argtype=="pvp" or self.argtype=="PVP"):
             self.PVP()
 
+        if self.arglength>0 and (self.argtype=="pvc" or self.argtype=="PVC"):
+            self.PVC()
+
         self.root.mainloop()
 
     def computer(self):
       #  print("Gra z komputerem")
         self.root.destroy()
-        computerGUI()
+        computerGUI(self.arglength)
 
     def PVP(self):
         print("Gra z człowiekiem")
         self.root.destroy()
         PVPGUI(self.arglength)
+
+    def PVC(self):
+        self.root.destroy()
+        PlayerGuess(self.arglength)
 
 class PVPGUI:
 
@@ -205,8 +213,9 @@ class PVPGUI:
 
 
 class computerGUI:
-    def __init__(self):
+    def __init__(self,arglength):
         self.root = tk.Tk()
+        self.arglength = arglength
         self.root.geometry('500x500')
         self.root.iconbitmap("icon.ico")
         self.root.resizable(False, False)
@@ -220,7 +229,8 @@ class computerGUI:
 
         self.root.mainloop()
     def playerguess(self):
-        print("start")
+        self.root.destroy()
+        PlayerGuess(self.arglength)
 
     def computerguess(self):
         print("start")
@@ -259,3 +269,113 @@ class rules:
             return
         self.root.destroy()
         return self.length
+
+class PlayerGuess:
+    def __init__(self,arglength):
+        self.length = 0
+        self.arglength = arglength
+        if self.arglength > 0:
+            self.length = self.arglength
+        else:
+            self.length = rules().length
+            if self.length == 0 or self.length == "" or int(self.length) <= 0:
+                return
+
+
+        self.szyfr = [str(random.randint(0,9)) for i in range(int(self.length))]
+        print(self.szyfr)
+        self.iterations = 0
+        self.guessed = ["_" for i in range(int(self.length))]
+        self.traf = "traf"
+        self.pozycje = gaming.initpozycje(int(self.length))
+        self.liczby = gaming.initliczby()
+        self.gaming = True
+        self.count = 0
+
+        # print(self.length)
+        self.root = tk.Tk()
+        self.root.iconbitmap("icon.ico")
+        self.root.title('Zgaduj!')
+        self.root.geometry('500x600')
+        self.root.resizable(False, False)
+
+        self.root.protocol("WM_DELETE_WINDOW", self.close)
+
+        while(self.gaming):
+            self.guess()
+
+            count = 0
+            for i in range(int(self.length)):
+
+                if self.guessed[i] == "_":
+                    count += 1
+
+            if count == 0:
+                self.gaming = False
+
+        messagebox.showinfo("Wygrana!", "Brawo! Zgadłeś szyfr komputera! Było to: "+str(self.szyfr))
+        self.root.destroy()
+        Menu(-1,"x")
+
+    def guess(self):
+        self.root.title("Zgaduj!")
+
+        guessed_var = tk.StringVar()
+        guessed_var.set(str(self.guessed))
+        lista = " "
+        liczbyvar = tk.StringVar()
+        for i in range(10):
+            if self.liczby[i] != 0:
+                lista = lista + str(i) + " wystąpiło " + str(self.liczby[i]) + " razy, "
+        liczbyvar.set(lista)
+        # print(lista)
+        if self.iterations > 0:
+            tk.Label(self.root, textvariable=guessed_var,
+                     font=("Arial", 24, "bold")).pack(pady=10)
+            tk.Label(self.root, textvariable=liczbyvar, wraplength=400,
+                     font=("Arial", 12, "bold")).pack(pady=10)
+
+        text_var = tk.StringVar()
+        text_var.set("Wpisz kod o długości " + str(self.length))
+        tk.Label(self.root, textvariable=text_var,
+                 font=("Arial", 16, "bold")).pack(pady=10)
+
+        self.entry = tk.Entry(self.root, width=20, font=('Arial 16'))
+        self.entry.pack(pady=20)
+
+        self.set_button = tk.Button(self.root, font=('Arial 16'), text="Zatwierdź",
+                                    command=self.guesstry, padx=50, pady=50)
+        self.set_button.pack(pady=10)
+
+        self.root.mainloop()
+
+    def close(self):
+        if messagebox.askokcancel("Zakończ grę", "Czy na pewno chcesz zakończyć rozgrywkę?"):
+            self.root.destroy()
+            sys.exit(0)
+
+    def guesstry(self):
+        self.pozycje = initpozycje(int(self.length))
+        self.liczby = initliczby()
+        self.traf = self.entry.get()
+        try:
+            x = int(self.traf)
+        except ValueError:
+            messagebox.showerror("Format szyfru", "Szyfr powinien składać się z cyfr!")
+            return
+
+        if self.traf==None or len(self.traf)<0 or len(self.traf)!=int(self.length):
+            messagebox.showerror("Długość szyfru", "Proszę podać szyfr o prawidłowej długości")
+            return
+        for widget in self.root.winfo_children():
+            widget.pack_forget()
+
+
+        gaming.check(self.szyfr, self.traf, int(self.length),self.pozycje,self.liczby)
+        updateguessed(self.guessed,self.pozycje,self.traf)
+
+        self.iterations+=1
+
+        for widget in self.root.winfo_children():
+            widget.pack_forget()
+        self.root.quit()

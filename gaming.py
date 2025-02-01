@@ -33,13 +33,12 @@ def check (szyfr, traf, n, pozycje, liczby):
             if szyfr[i] == traf[i]:
                 pozycje[i] = True
 
+        sprawdzone=initpozycje(n)
         for i in range(n):
-            if pozycje[i] == False:
-
-                for j in range(n):
-                    if traf[i]==szyfr[j] and pozycje[j]==False:
-
-                        liczby[int(traf[i])]+=1
+            for j in range(n):
+                if traf[i]==szyfr[j] and pozycje[j]==False and sprawdzone[j]==False:
+                    liczby[int(traf[i])]+=1
+                    sprawdzone[j]=True
     except IndexError:
         print("indeks poza listą")
 
