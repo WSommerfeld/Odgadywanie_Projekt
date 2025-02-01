@@ -1,7 +1,6 @@
 #Gracz wprowadza szyfr - komputer 'odgaduje'
 import random
 # Wprowadzamy liczbe n (dlugosc szyfru) a potem szyfr zlozony z n cyfr #
-Gracz=[]
 #--------------------------------------------------------#
 #while True:
     #try:
@@ -15,6 +14,7 @@ Gracz=[]
 
 #--------------------------------------------------------#
 def first_player(n):
+    Gracz=[]
     j=1
     print("///Wprowadz cyfry do szyfru",n,"-elementowego///")
     while(j<=n):
