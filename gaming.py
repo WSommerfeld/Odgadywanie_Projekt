@@ -3,15 +3,15 @@ import random
 # Wprowadzamy liczbe n (dlugosc szyfru) a potem szyfr zlozony z n cyfr #
 Gracz=[]
 #--------------------------------------------------------#
-while True:
-    try:
-        n = int(input("Podaj dodatnią liczbę całkowitą: "))
-        if (n > 0):
-            break  # Wyjście z pętli, gdy liczba jest dodatnia #
-        else:
-            print("///Błąd - Liczba musi być dodatnia calkowita///")
-    except ValueError:
-        print("///Błąd - Wprowadź poprawną wartość///")
+#while True:
+    #try:
+        #n = int(input("Podaj dodatnią liczbę całkowitą: "))
+        #if (n > 0):
+            #break  # Wyjście z pętli, gdy liczba jest dodatnia #
+        #else:
+            #print("///Błąd - Liczba musi być dodatnia calkowita///")
+    #except ValueError:
+        #print("///Błąd - Wprowadź poprawną wartość///")
 
 #--------------------------------------------------------#
 def first_player(n):
