@@ -23,6 +23,8 @@ def main():
     # rozgrywka w GUI
     GUI.Menu(code_length, type)
 
+    #gaming.cmdPlayerGuessing(4)
+
     #gaming.autoguessing(5,"21371")
 
     #rozgrywka w konsoli456

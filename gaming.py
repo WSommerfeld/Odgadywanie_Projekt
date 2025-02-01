@@ -35,9 +35,11 @@ def check (szyfr, traf, n, pozycje, liczby):
 
         for i in range(n):
             if pozycje[i] == False:
+
                 for j in range(n):
-                    if traf[i]==szyfr[j]:
-                        liczby[i]+=1
+                    if traf[i]==szyfr[j] and pozycje[j]==False:
+
+                        liczby[int(traf[i])]+=1
     except IndexError:
         print("indeks poza listą")
 
@@ -150,15 +152,18 @@ def cmdPlayerGuessing(n):
     gaming = True
     count = 0
 
-    correct_code = random.randint(1,n)
+    correct_code = [str(random.randint(0,9)) for i in range(n)]
+
+    print(correct_code)
 
     while gaming:
 
-        print("GRACZ 1")
+
         if iterations > 0:
             print(guessed)
             print("Liczby nie na swoich pozycjach:")
-            for i in range(n):
+            print(liczby)
+            for i in range(10):
                 if liczby[i] != 0:
                     print(str(i) + " występuje jeszcze " + str(liczby[i]) + " razy")
 
@@ -169,27 +174,25 @@ def cmdPlayerGuessing(n):
             print("za długi!")
             continue
 
+        pozycje = initpozycje(n)
+        liczby = initliczby()
+
         #tu trzeba pozmieniac
-        print("GRACZ 2")
-        print("Podaj pozycje na których jest prawidłowa cyfra:")
-        PVPpozycje(pozycje, input())
-
-        print("Podaj cyfry występujące w cyfrze, nie na swoim miejscu:")
-        PVPliczby(liczby, input())
-
+        check(correct_code, traf, n, pozycje,liczby)
         updateguessed(guessed, pozycje, traf)
 
         iterations += 1
-
+        count = 0
         for i in range(n):
-            count = 0
-            if guessed[i] == "_":
-                count += 1
 
+            if guessed[i] == "_":
+                count =1
+                print("lol")
+        print("count: "+str(count))
         if count == 0:
             gaming = False
             print("WYGRANO")
-            print("Prawidłowy kod to " + str(guessed))
+            print("Prawidłowy kod to " + str(traf))
 
 
 def autoguessing(n, correctszyfr):
