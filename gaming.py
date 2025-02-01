@@ -1,35 +1,46 @@
 import random
-
-def generate_code(n):
-    """Generuje losowy szyfr z n cyfr."""
-    return [random.randint(0, 9) for _ in range(n)]
-
-def evaluate_guess(code, guess):
-    """Ocena odgadniecia - zwraca liczbe trafien na wlaciwych i niewlasciwych miejscach."""
-    correct_position = sum(c == g for c, g in zip(code, guess))
-    correct_digit = sum(min(code.count(d), guess.count(d)) for d in set(guess)) - correct_position
-    return correct_position, correct_digit
-
-def play_game(n):
-    code = generate_code(n)
-    attempts = 0
-
-    print(f"Witaj w grze - odgadnij {n}-cyfrowy szyfr.")
-
-    while True:
-        guess = input(f"Podaj {n} cyfr (bez spacji): ")
-        if len(guess) != n or not guess.isdigit():
-            print("Bledne dane - wprowadz dokladnie ", n, "cyfr.")
-            continue
-
-        guess = [int(digit) for digit in guess]
-        attempts += 1
-
-        correct_position, correct_digit = evaluate_guess(code, guess)
-
-        if correct_position == n:
-            print(f"Gratulacje - odgadles szyfr {code} w {attempts} probach.")
-            break
+# Wprowadzamy liczbe n (dlugosc szyfru) a potem szyfr zlozony z n cyfr #
+Gracz=[]
+#--------------------------------------------------------#
+while True:
+    try:
+        n = int(input("Podaj dodatnią liczbę całkowitą: "))
+        if (n > 0):
+            break  # Wyjście z pętli, gdy liczba jest dodatnia #
         else:
-            print(f"Poprawnych cyfr na wlasciwych miejscach: {correct_position}")
-            print(f"Poprawnych cyfr na zlych miejscach: {correct_digit}")
+            print("///Błąd - Liczba musi być dodatnia calkowita///")
+    except ValueError:
+        print("///Błąd - Wprowadź poprawną wartość///")
+
+#--------------------------------------------------------#
+j=1
+print("///Wprowadz cyfry do szyfru",n,"-elementowego///")
+while(j<=n):
+    cyfra = int(input())
+    Gracz.append(cyfra)
+    j=j+1
+print(Gracz)
+#--------------------------------------------------------#
+# Na samym poczatku jest losowo generowana lista zlozona z n cyfr #
+Komputer=[random.randint(0,9) for _ in range(n)]
+#print(Komputer)
+#--------------------------------------------------------#
+trafione=[]
+# Jest wprowadzana pomocnicza n-elem. lista wypelniona 'X' #
+for i in range(n):
+    trafione.append('X')
+print(trafione)
+#--------------------------------------------------------#
+while(Komputer != Gracz):
+    i=0
+    while(i <= n-1):
+        if(trafione[i] == 'X'): # Jesli w liscie 'trafione' w danym miejscu i nadal jest 'X', generowana jest losowa cyfra w liscie 'Komputer' w tym samym miejscu i #
+            Komputer[i]=random.randint(0,9)
+            #print("Komputer zgaduje:",Komputer)
+            # Na biezaco sprawdzane jest czy mamy juz trafiona cyfre, jezeli tak to zamieniamy 'X' na ta cyfre #
+            if(Komputer[i] == Gracz[i]):
+                print("Komputer zgadl liczbe:",Gracz[i],"na pozycji:",i)
+                trafione[i]=Komputer[i]
+                print(trafione)
+        i=i+1
+print("Gratulacje komputerze - udalo ci sie odgadnac szyfr")
