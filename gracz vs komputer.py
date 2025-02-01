@@ -1,3 +1,4 @@
+#Gracz wprowadza szyfr - komputer 'odgaduje'
 import random
 # Wprowadzamy liczbe n (dlugosc szyfru) a potem szyfr zlozony z n cyfr #
 Gracz=[]
