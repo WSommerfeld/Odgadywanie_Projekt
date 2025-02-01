@@ -26,6 +26,9 @@ class Menu:
         if self.arglength>0 and (self.argtype=="pvp" or self.argtype=="PVP"):
             self.PVP()
 
+        if self.arglength>0 and (self.argtype=="pvc" or self.argtype=="PVC"):
+            self.PVC()
+
         self.root.mainloop()
 
     def computer(self):
@@ -37,6 +40,10 @@ class Menu:
         print("Gra z człowiekiem")
         self.root.destroy()
         PVPGUI(self.arglength)
+
+    def PVC(self):
+        self.root.destroy()
+        PlayerGuess(self.arglength)
 
 class PVPGUI:
 
