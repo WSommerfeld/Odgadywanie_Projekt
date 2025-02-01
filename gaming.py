@@ -136,97 +136,73 @@ def cmdPVP(n):
             print("Prawidłowy kod to " + str(guessed))
 
 
-
-
-
-def pasuje_do_oceny(mozliwosci, trafione_miejsca, n, odgadniecie, trafione_cyfry, odrzucone_cyfry, pewne_cyfry):
-
-    for kandydat in mozliwosci:
-        # sprawdzenie trafionych miejsc
-        for pos in range(n):
-            if pos in trafione_miejsca and kandydat[pos] != odgadniecie[pos]:
-                return False
-            if pos not in trafione_miejsca and kandydat[pos] == odgadniecie[pos]:
-                return False
-
-    # sprawdzenie, czy trafione cyfry są obecne, ale nie na złych miejscach
-        for cyfra in trafione_cyfry:
-            if cyfra not in kandydat:
-                return False
-            if cyfra in [kandydat[pos] for pos in trafione_miejsca]:
-                return False
-
-    # wykluczenie cyfr, które na pewno nie występują
-        if any(cyfra in odrzucone_cyfry for cyfra in kandydat):
+def pasuje_do_oceny(kandydat, trafione_miejsca, odgadniecie, trafione_cyfry, odrzucone_cyfry, pewne_cyfry):
+    for pos in trafione_miejsca:
+        if kandydat[pos] != odgadniecie[pos]:
             return False
-
-    # sprawdzenie, czy kandydat zawiera wszystkie cyfry w `pewne_cyfry`
-        if not all(cyfra in kandydat for cyfra in pewne_cyfry):
+    for pos in range(len(kandydat)):
+        if pos not in trafione_miejsca and kandydat[pos] == odgadniecie[pos]:
             return False
+    for cyfra in trafione_cyfry:
+        if cyfra not in kandydat or any(kandydat[pos] == cyfra for pos in trafione_miejsca):
+            return False
+    if any(cyfra in odrzucone_cyfry for cyfra in kandydat):
+        return False
+    return True
 
-        return True
+
+def pobierz_wejscie_liczbowe(prompt):
+    try:
+        wejscie = input(prompt).strip()
+        return [int(x) - 1 for x in wejscie.split(",") if x] if wejscie else []
+    except ValueError:
+        print("Podano nieprawidłowe dane. Wpisz liczby oddzielone przecinkiem.")
+        return pobierz_wejscie_liczbowe(prompt)
 
 
-'''
-1. podział na osobne funkcje
-2. wpisywanie po przecinku (split)
-'''
+def aktualizuj_zbiory(odgadniecie, trafione_miejsca, trafione_cyfry, pewne_cyfry, odrzucone_cyfry):
+    for pos in trafione_miejsca:
+        pewne_cyfry.add(odgadniecie[pos])
+    pewne_cyfry.update(trafione_cyfry)
+    for cyfra in odgadniecie:
+        if cyfra not in pewne_cyfry and cyfra not in trafione_cyfry:
+            odrzucone_cyfry.add(cyfra)
+
+
+def filtruj_mozliwosci(mozliwosci, trafione_miejsca, odgadniecie, trafione_cyfry, odrzucone_cyfry, pewne_cyfry):
+    return [mozliwosc for mozliwosc in mozliwosci if
+            pasuje_do_oceny(mozliwosc, trafione_miejsca, odgadniecie, trafione_cyfry, odrzucone_cyfry, pewne_cyfry)]
+
+
 def gra_z_komputerem(n):
-    #n = 4  # długość szyfru
     print("Długość szyfru:", n)
     input("Wymyśl szyfr i zapamiętaj go! (Nie podawaj go komputerowi!)")
 
     liczba_prob = 0
-    mozliwosci = [list(map(int, str(i).zfill(n))) for i in range(10**n)]
-    pewne_cyfry = set()  # cyfry, które na pewno występują
-    odrzucone_cyfry = set()  # cyfry, które na pewno nie występują
+    mozliwosci = [[int(digit) for digit in str(i).zfill(n)] for i in range(10 ** n)]
+    pewne_cyfry, odrzucone_cyfry = set(), set()
 
     while mozliwosci:
         liczba_prob += 1
         odgadniecie = random.choice(mozliwosci)
-        print(f"Komputer odgaduje: {''.join(map(str, odgadniecie))}")
+        print(f"Komputer odgaduje: {''.join(str(digit) for digit in odgadniecie)}")
 
-        try:
-            trafione_miejsca = input("Podaj pozycje (1-4), gdzie cyfry są na właściwych miejscach (np. 1 3): ")
-            trafione_cyfry = input("Podaj cyfry, które są w szyfrze, ale na złych miejscach (np. 4 6): ")
+        trafione_miejsca = pobierz_wejscie_liczbowe(
+            f"Podaj pozycje (1-{n}), gdzie cyfry są na właściwych miejscach, oddzielone przecinkiem: ")
+        trafione_cyfry = pobierz_wejscie_liczbowe(
+            "Podaj cyfry, które są w szyfrze, ale na złych miejscach, oddzielone przecinkiem: ")
+        trafione_cyfry = [x + 1 for x in trafione_cyfry]
 
-            # zamiana wprowadzeń na listy
-            trafione_miejsca = [int(pos) - 1 for pos in trafione_miejsca.split()] if trafione_miejsca.strip() else []
-            trafione_cyfry = [int(cyfra) for cyfra in trafione_cyfry.split()] if trafione_cyfry.strip() else []
-
-            # sprawdzenie czy wprowadzone dane są prawidłowe
-            if any(pos < 0 or pos >= n for pos in trafione_miejsca):
-                print("Podano nieprawidłowe pozycje. Spróbuj jeszcze raz.")
-                continue
-        except ValueError:
-            print("Podano nieprawidłowe dane. Wpisz liczby oddzielone spacją.")
-            continue
-
-        # jeśli komputer odgadł wszystkie pozycje
         if len(trafione_miejsca) == n and sorted(trafione_miejsca) == list(range(n)):
-            print(f"Komputer odgadł Twój szyfr {''.join(map(str, odgadniecie))} w {liczba_prob} próbach!")
+            print(f"Komputer odgadł Twój szyfr {''.join(str(digit) for digit in odgadniecie)} w {liczba_prob} próbach!")
             break
 
-        # aktualizacja zbiorów cyfr
-        pewne_cyfry.update(odgadniecie[pos] for pos in trafione_miejsca)  # cyfry na dobrych miejscach
-        pewne_cyfry.update(trafione_cyfry)  # cyfry poprawne na złych miejscach
-        odrzucone_cyfry.update(cyfra for cyfra in odgadniecie if cyfra not in pewne_cyfry)
-
-        # filtrowanie możliwych szyfrów
-        pasuje_do_oceny( mozliwosci,trafione_miejsca, n, odgadniecie, trafione_cyfry, odrzucone_cyfry, pewne_cyfry)
-
-        # pokaż możliwości przed filtrowaniem
+        aktualizuj_zbiory(odgadniecie, trafione_miejsca, trafione_cyfry, pewne_cyfry, odrzucone_cyfry)
         print(f"Przed filtrowaniem: pozostało {len(mozliwosci)} możliwości.")
-
-        mozliwosci = [mozliwosc for mozliwosc in mozliwosci if pasuje_do_oceny(mozliwosci, trafione_miejsca, n, odgadniecie, trafione_cyfry, odrzucone_cyfry, pewne_cyfry)]
-
-        # pokaż po filtrowaniu
+        mozliwosci = filtruj_mozliwosci(mozliwosci, trafione_miejsca, odgadniecie, trafione_cyfry, odrzucone_cyfry,
+                                        pewne_cyfry)
         print(f"Po filtrowaniu: pozostało {len(mozliwosci)} możliwości.")
 
         if not mozliwosci:
             print("Nie udało się odgadnąć szyfru. Sprawdź, czy dane były poprawnie wprowadzone.")
             break
-
-
-
-

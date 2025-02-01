@@ -18,6 +18,7 @@ def main():
     pozycje=gaming.initpozycje(4)
     print(pozycje)
 
+
     print("wpisz pozycje po przecinku")
     gaming.PVPpozycje(pozycje,input())
 
