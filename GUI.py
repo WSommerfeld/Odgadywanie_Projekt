@@ -7,7 +7,11 @@ from gaming import PVPpozycje, updateguessed, PVPliczby, initpozycje, initliczby
 
 import sqlite3
 
-
+'''
+Klasa odpowiadająca za Menu główne
+w którym wybieramy rozgrywkę PVP, z komputerem
+lub wyświetlamy tablicę wyników
+'''
 class Menu:
     def __init__(self, arglength, argtype, name):
         from tkinter.simpledialog import askstring
@@ -18,8 +22,6 @@ class Menu:
             showinfo('Witaj!', 'Hej, {}'.format(self.name))
         else:
             self.name = name
-
-
 
         self.arglength = arglength
         self.argtype = argtype
@@ -50,20 +52,36 @@ class Menu:
 
         self.root.mainloop()
 
+    '''
+    Przejście do GUI odpowiedzialnego
+    za wybór typu rozgrywki z komputerem
+    '''
     def computer(self):
       #  print("Gra z komputerem")
         self.root.destroy()
         computerGUI(self.arglength,self.name)
 
+    '''
+    Przejście do GUI odpowiedzialnego
+    za rozgrywkę PVP
+    '''
     def PVP(self):
         print("Gra z człowiekiem")
         self.root.destroy()
         PVPGUI(self.arglength)
 
+    '''
+    Przejście do GUI odpowiedzialnego
+    za rozgrywkę w której gracz zgaduje
+    '''
     def PVC(self):
         self.root.destroy()
         PlayerGuess(self.arglength, self.name)
 
+    '''
+    Otworzenie okna z tablicą
+    wyników pobieraną z bazy sqlite
+    '''
     def score(self):
         conn = sqlite3.connect('wyniki.db')
         cursor = conn.cursor()
@@ -87,7 +105,10 @@ class Menu:
                 e.insert(END, tablica[i][j])
 
 
-
+'''
+Klasa odpowiedzialna za interfejs graficzny rozgrywki
+pomiędzy dwoma graczami
+'''
 class PVPGUI:
 
     def __init__(self, arglength):
@@ -132,11 +153,17 @@ class PVPGUI:
         self.root.destroy()
         Menu(-1,"x")
 
+    '''
+    Obsługa zamknięcia okna
+    '''
     def close(self):
         if messagebox.askokcancel("Zakończ grę", "Czy na pewno chcesz zakończyć rozgrywkę?"):
             self.root.destroy()
             sys.exit(0)
 
+    '''
+    Zmiana okna dla gracza zgadującego
+    '''
     def gracz1(self):
         self.root.title("Zgaduj!")
 
@@ -169,6 +196,9 @@ class PVPGUI:
 
         self.root.mainloop()
 
+    '''
+    Wykonanie próby zgadnięcia kodu
+    '''
     def guess(self):
         self.traf = self.entry.get()
         try:
@@ -186,7 +216,9 @@ class PVPGUI:
 
 
 
-
+    '''
+    Zmiana okna dla gracza wymyślającego kod
+    '''
     def gracz2(self):
         self.root.title("Sprawdź!")
 
@@ -238,6 +270,10 @@ class PVPGUI:
 
         self.root.mainloop()
 
+    '''
+    Zmiana tablicy pozycje zgodnie
+    z inputem gracza 2
+    '''
     def setpozycje(self):
         PVPpozycje(self.pozycje,self.entryp.get())
         updateguessed(self.guessed,self.pozycje,self.traf)
@@ -248,13 +284,19 @@ class PVPGUI:
             widget.pack_forget()
         self.root.quit()
 
+    '''
+    Opcja dla gracza nr 2, w której informuje,
+    że jego szyfr został odgadnięty
+    '''
     def correct(self):
         self.gaming=False
         for widget in self.root.winfo_children():
             widget.pack_forget()
         self.root.quit()
 
-
+'''
+GUI służące do wyboru rodzaju rozgrywki z komputerem
+'''
 class computerGUI:
     def __init__(self,arglength, name):
         self.name = name
@@ -272,13 +314,26 @@ class computerGUI:
         self.computer_guess.pack(pady=10)
 
         self.root.mainloop()
+
+    '''
+    Przejście do GUI rozgrywki, w której
+    gracz zgaduje szyfr komputera
+    '''
     def playerguess(self):
         self.root.destroy()
         PlayerGuess(self.arglength, self.name)
 
+    '''
+    Przejście do GUI rozgrywki, w której
+    komputer zgaduje szyfr gracza
+    '''
     def computerguess(self):
         print("start")
 
+    '''
+    Klasa odpowiedzialna za okno, w którym
+    ustalana jest długość szyfru
+    '''
 class rules:
     def __init__(self):
         self.length = 0
@@ -299,7 +354,10 @@ class rules:
 
         self.root.mainloop()
 
-
+    '''
+    Wyjście z okna rules, ze zwróceniem
+    wprowadzonej wartości
+    '''
     def start(self):
         self.length =self.entry.get()
 
@@ -313,6 +371,11 @@ class rules:
             return
         self.root.destroy()
         return self.length
+
+'''
+Klasa odpowiedzialna za GUI rozgrywki z komputerem,
+w której gracz odgaduje szyfr komputera
+'''
 
 class PlayerGuess:
     def __init__(self,arglength, name):
@@ -385,6 +448,9 @@ class PlayerGuess:
         self.root.destroy()
         Menu(-1,"x", self.name)
 
+    '''
+    Kolejna iteracja zgadywania przez gracza kodu komputera
+    '''
     def guess(self):
         self.root.title("Zgaduj!")
 
@@ -417,11 +483,16 @@ class PlayerGuess:
 
         self.root.mainloop()
 
+    '''
+    Obsługa zamknięcia okna
+    '''
     def close(self):
         if messagebox.askokcancel("Zakończ grę", "Czy na pewno chcesz zakończyć rozgrywkę?"):
             self.root.destroy()
             sys.exit(0)
-
+    '''
+    Sprawdzenie podanego przez gracza szyfru
+    '''
     def guesstry(self):
         self.pozycje = initpozycje(int(self.length))
         self.liczby = initliczby()
