@@ -1,7 +1,7 @@
 import random
 import sys
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, END
 import gaming
 from gaming import PVPpozycje, updateguessed, PVPliczby, initpozycje, initliczby
 
@@ -67,9 +67,26 @@ class Menu:
     def score(self):
         conn = sqlite3.connect('wyniki.db')
         cursor = conn.cursor()
-        tablica = cursor.execute("SELECT name as 'Nazwa', score as 'Wynik' FROM wyniki").fetchall()
+        tablica = cursor.execute("SELECT name as 'Nazwa', score as 'Wynik' FROM wyniki ORDER BY score desc").fetchall()
         conn.close()
-        print(tablica)
+
+        total_rows = len(tablica)
+
+        newroot = tk.Tk()
+        newroot.title('Tablica wyników (gracz vs komputer)')
+        newroot.geometry('500x500')
+        newroot.iconbitmap("icon.ico")
+        newroot.resizable(False, True)
+
+        for i in range(total_rows):
+            for j in range(2):
+                e = tk.Entry(newroot, width=20, fg='blue',
+                               font=('Arial', 16, 'bold'))
+
+                e.grid(row=i+1, column=j)
+                e.insert(END, tablica[i][j])
+
+
 
 class PVPGUI:
 
@@ -358,6 +375,7 @@ class PlayerGuess:
             inscore = int(score)
 
             c.execute("INSERT INTO WYNIKI (ID,NAME,SCORE) VALUES (?,?,?)", (id,self.name,inscore))
+            c.execute("UPDATE wyniki SET name='User' WHERE name IS NULL")
 
             conn.commit()
             conn.close()
