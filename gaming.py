@@ -334,7 +334,7 @@ def onetimeguess(guessed, liczby, opcjenapozycji, n):
 
 
 '''
-Rozgrywka w konsoli wariant II
+Rozgrywka w konsoli wariant III
 Algorytm pamięta które cyfry są trafione,
 które znalazły się w cyfrze nie na swoich
 miejscach i na bieżąco aktializuje ich listę,
