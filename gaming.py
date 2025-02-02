@@ -345,22 +345,22 @@ def autoguessingv2(n):
     liczby = initliczby()
     opcjenapozycji = initopcjenapozycji(n)
     guessed = ["_" for i in range(n)]
-    traf = [0 for i in range(n)]
+    traf = [random.randint(0,9)  for i in range(n)]
 
 
     #dodac sprawdzanie ile opcji na pozycji
     while(True):
         pozycje = initpozycje(n)
-
+        print(guessed)
         print("Traf ",traf)
         print("Pozycje")
         pozycjeinput = input()
         print("Liczby")
         liczbyinput = input()
         updateinfo(guessed, traf, pozycje, liczby, opcjenapozycji, n, pozycjeinput, liczbyinput)
-        print(guessed)
+
         traf=onetimeguess(guessed, liczby, opcjenapozycji, n)
-        print(guessed)
+
 
 
         count=0
