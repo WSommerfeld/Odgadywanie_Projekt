@@ -19,6 +19,9 @@ Program ma umożliwiać grę w odgadywanie. Zasady gry są następujące:
 //tu tez 
 ### Tablica wyników 
 //tu tez 
+### Wywoływanie w linii komend 
+//tt 
+
 
 
 
