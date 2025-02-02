@@ -20,6 +20,10 @@ def initliczby():
 
 
 '''
+Funkcja modyfikująca listy informujące
+o pozycjach, na których odgadnięto właściwe
+cyfry oraz o cyfrach, które pojawiły się
+nie na swoich miejscach
 szyfr - właściwy szyfr
 traf - próba zgadnięcia
 n - długość szyfru
@@ -41,7 +45,7 @@ def check (szyfr, traf, n, pozycje, liczby):
                     liczby[int(traf[i])]+=1
                     sprawdzone[j]=True
     except IndexError:
-        print("indeks poza listą")
+        pass
 
 '''
 zamienia string postaci "1,2,8,...,x<=n"
@@ -58,9 +62,9 @@ def PVPpozycje(pozycje, pozycjeinput):
         for i in range(length):
             pozycje[int(pozycjeinput[i])-1] = True
     except IndexError:
-        print("indeks poza listą")
+        pass
     except ValueError:
-        x=1
+        pass
 
 '''
 zamienia string postaci "1,1,3,2,...,x<=9"
@@ -80,14 +84,17 @@ def PVPliczby(liczby, liczbyinput):
         for i in range(length):
             newliczby[int(liczbyinput[i])]+=1
     except IndexError:
-        print("indeks poza listą")
+        pass
     except ValueError:
-        x=1
+        pass
 
     for i in range(10):
         if newliczby[i]>liczby[i]:
             liczby[i]=newliczby[i]
 
+'''
+Aktualizacja odgadnietych cyfr w szyfrze
+'''
 def updateguessed(guessed, pozycje, traf):
      length = len(guessed)
      for i in range(length):
@@ -97,7 +104,9 @@ def updateguessed(guessed, pozycje, traf):
 
 
 
-
+'''
+Rozgrywka PVP w konsoli
+'''
 def cmdPVP(n):
     iterations=0
     print("Długość kodu: "+str(n))
@@ -147,6 +156,10 @@ def cmdPVP(n):
             print("Prawidłowy kod to " + str(guessed))
 
 
+'''
+Rozgrywka w konsoli, gdzie gracz zgaduje
+kod komputera
+'''
 def cmdPlayerGuessing(n):
     iterations = 0
     print("Długość kodu: " + str(n))
@@ -183,7 +196,6 @@ def cmdPlayerGuessing(n):
         pozycje = initpozycje(n)
         liczby = initliczby()
 
-        #tu trzeba pozmieniac
         check(correct_code, traf, n, pozycje,liczby)
         updateguessed(guessed, pozycje, traf)
 
@@ -200,7 +212,12 @@ def cmdPlayerGuessing(n):
             print("WYGRANO")
             print("Prawidłowy kod to " + str(traf))
 
-
+'''
+Testowy algorytm zgadywania przez komputer
+Algorytm informowany jest o trafionych pozycjach
+oraz cyfrach, które pojawiły się w kodzie nie na
+swoim miejscu
+'''
 def autoguessing(n, correctszyfr):
 
     correct  = ["_" for i in range(n)]
@@ -221,65 +238,67 @@ def autoguessing(n, correctszyfr):
 
         for i in range(n):
             if pozycje[i] == False:
-                if liczbydowstawienia.count(i)!=0:
-                    print(liczbydowstawienia)
+                if len(liczbydowstawienia)!=0:
                     wstaw = random.choice(liczbydowstawienia)
                     liczbydowstawienia.remove(wstaw)
                     bestszyfr[i] = wstaw
+                    #odkryto możliwość nieskończonego
+                    #zapętlenia się algorytmu
                 else:
                     bestszyfr[i] = random.choice(cyfry)
-
-
-
-
-
-
 
 
         check(correctszyfr,bestszyfr,n,pozycje, liczby)
         x+=1
         print(x,": ",bestszyfr)
 
+
+'''
+Inicjalizacja listy list, informującej
+jakie możliwości pozostały na danej
+pozycji
+'''
 def initopcjenapozycji(n):
     opcjenapozycji = [[i for i in range(10)] for j in range(n)]
     return opcjenapozycji
 
+
+'''
+Uaktualnienie informacji posiadanych przez
+algorytm
+'''
 def updateinfo(guessed, traf, pozycje, liczby, opcjenapozycji, n, pozycjeinput, liczbyinput):
 
-    PVPpozycje(pozycje, pozycjeinput)
-    PVPliczby(liczby, liczbyinput)
+    PVPpozycje(pozycje, pozycjeinput) #aktualizacja trafionych pozycji
+    PVPliczby(liczby, liczbyinput)#aktualizacja cyfr, które wystąpiły w szyfrze nie na swoim miejscu
 
-    #aktualizacja rozwiazania
     for i in range(n):
         if pozycje[i] == True:
-            guessed[i] = traf[i]
+            guessed[i] = traf[i] #aktualizacja pozycji w szyfrze
             if liczby[traf[i]] != 0:
-                liczby[traf[i]] = liczby[traf[i]]-1
+                liczby[traf[i]] = liczby[traf[i]]-1 #aktualizacja pozostałych cyfr
 
         if pozycje[i] == False:
             try:
-                opcjenapozycji[i].remove(traf[i])
+                opcjenapozycji[i].remove(traf[i]) #usunięcie możliwości z danej pozycji
             except:
-                x=1
+                pass
 
 
 
 
-
+'''
+Algorytm odgadywania na podstawie posiadanych informacji
+'''
 def onetimeguess(guessed, liczby, opcjenapozycji, n):
     traf=[guessed[i] for i in range(n)]
-
-
     cyfrydowstawienia = []
 
     for i in range(10):
         for j in range(int(liczby[i])):
             cyfrydowstawienia.append(i)
 
-    print("Cyfry do wstawienia: ",cyfrydowstawienia)
-
     #wstawianie z listy liczby
-
     for i in range(n):
         if traf[i] == "_":
             if len(cyfrydowstawienia)>0:
@@ -298,11 +317,8 @@ def onetimeguess(guessed, liczby, opcjenapozycji, n):
 
                     if git:
                         traf[i]=wstaw
-                        #print(traf[i], " wstawiono")
                         cyfrydowstawienia.remove(wstaw)
                         break
-
-
 
     #wstawianie losowe
     for i in range(n):
@@ -314,11 +330,17 @@ def onetimeguess(guessed, liczby, opcjenapozycji, n):
                 print("Nie gram z oszustami!")
                 sys.exit(0)
 
-
     return traf
 
 
-
+'''
+Rozgrywka w konsoli wariant II
+Algorytm pamięta które cyfry są trafione,
+które znalazły się w cyfrze nie na swoich
+miejscach i na bieżąco aktializuje ich listę,
+które cyfry mogą się jeszcze pojawić
+na danej pozycji
+'''
 def autoguessingv2(n):
     liczby = initliczby()
     opcjenapozycji = initopcjenapozycji(n)
@@ -355,9 +377,11 @@ def autoguessingv2(n):
 
 
 
-
-
-
+'''
+Rozgrywka w konsoli wariant I
+Algorytm jest informowany o "trafionych"
+pozycjach w szyfrze gracza
+'''
 # Wprowadzamy liczbe n (dlugosc szyfru) a potem szyfr zlozony z n cyfr #
 #--------------------------------------------------------#
 #while True:
