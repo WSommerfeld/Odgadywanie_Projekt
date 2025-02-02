@@ -232,6 +232,44 @@ def autoguessing(n, correctszyfr):
         x+=1
         print(x,": ",bestszyfr)
 
+def initopcjenapozycji(n):
+    opcjenapozycji = [[i for i in range(9)] for j in range(n)]
+
+def updateinfo(guessed, traf, pozycje, liczby, opcjenapozycji, n, pozycjeinput, liczbyinput):
+
+    PVPpozycje(pozycje, pozycjeinput)
+    PVPliczby(liczby, liczbyinput)
+
+    #aktualizacja rozwiazania
+    for i in range(n):
+        if pozycje[i] == True:
+            guessed[i] = traf[i]
+
+        if pozycje[i] == False:
+            try:
+                opcjenapozycji[i].remove(traf[i])
+            except:
+                x=1
+
+
+
+
+
+def onetimeguess(guessed, liczby, opcjenapozycji, n):
+    traf= guessed
+    cyfrydowstawienia = []
+
+    for i in range(9):
+        for j in range(int(liczby[i])):
+            cyfrydowstawienia.append(str(i))
+
+    for i in range(n):
+        if guessed[i] == "_":
+            print("lol")
+
+
+
+
 
 
 

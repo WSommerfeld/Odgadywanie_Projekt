@@ -20,8 +20,15 @@ def main():
 
 
     # rozgrywka w GUI
-    GUI.Menu(code_length, type)
+    #GUI.Menu(code_length, type)
 
+    n=4
+    guessed = ["_" for i in range(n)]
+    pozycje = gaming.initpozycje(n)
+    liczby=gaming.initliczby()
+    opcjenapozycji = gaming.initopcjenapozycji(n)
+
+    gaming.onetimeguess(guessed,  liczby,opcjenapozycji, n)
 
 
 if __name__ == '__main__':
