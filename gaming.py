@@ -234,6 +234,7 @@ def autoguessing(n, correctszyfr):
 
 def initopcjenapozycji(n):
     opcjenapozycji = [[i for i in range(9)] for j in range(n)]
+    return opcjenapozycji
 
 def updateinfo(guessed, traf, pozycje, liczby, opcjenapozycji, n, pozycjeinput, liczbyinput):
 
@@ -263,9 +264,36 @@ def onetimeguess(guessed, liczby, opcjenapozycji, n):
         for j in range(int(liczby[i])):
             cyfrydowstawienia.append(str(i))
 
+    #wstawianie z listy liczby
     for i in range(n):
         if guessed[i] == "_":
-            print("lol")
+            if len(cyfrydowstawienia)!=0:
+                for j in range(len(cyfrydowstawienia)):
+                    wstaw=random.choice(cyfrydowstawienia)
+                    if opcjenapozycji[i].count(wstaw)!=0:
+                        traf[i]=wstaw
+                        cyfrydowstawienia.remove(wstaw)
+                        break
+
+    #wstawianie losowe
+    for i in range(n):
+        if guessed[i] == "_":
+            traf[i]=random.choice(opcjenapozycji)
+
+
+
+def autoguessingv2(szyfr,n):
+    pozycje = initpozycje(n)
+    liczby = initliczby()
+    opcjenapozycji = initopcjenapozycji(n)
+    guessed = ["_" for i in range(n)]
+    traf = ["0" for i in range(n)]
+    correct = [szyfr[i] for i in range(n)]
+
+    
+
+
+
 
 
 
