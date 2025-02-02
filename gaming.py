@@ -136,6 +136,12 @@ def cmdPVP(n):
             print("Prawidłowy kod to " + str(guessed))
 
 
+'''
+pasuje_do_oceny(kandydat, trafione_miejsca, odgadniecie, trafione_cyfry, odrzucone_cyfry, pewne_cyfry)
+Sprawdza, czy podany kandydat spełnia warunki na podstawie poprzednich prób, 
+uwzględniając poprawnie odgadnięte cyfry oraz te na złych pozycjach.
+'''
+
 def pasuje_do_oceny(kandydat, trafione_miejsca, odgadniecie, trafione_cyfry, odrzucone_cyfry, pewne_cyfry):
     for pos in trafione_miejsca:
         if kandydat[pos] != odgadniecie[pos]:
@@ -150,6 +156,10 @@ def pasuje_do_oceny(kandydat, trafione_miejsca, odgadniecie, trafione_cyfry, odr
         return False
     return True
 
+'''
+pobierz_wejscie_liczbowe(prompt) 
+Pobiera od użytkownika listę liczb oddzielonych przecinkami i zwraca je jako listę indeksów.
+'''
 
 def pobierz_wejscie_liczbowe(prompt):
     try:
@@ -159,6 +169,11 @@ def pobierz_wejscie_liczbowe(prompt):
         print("Podano nieprawidłowe dane. Wpisz liczby oddzielone przecinkiem.")
         return pobierz_wejscie_liczbowe(prompt)
 
+'''
+aktualizuj_zbiory(odgadniecie, trafione_miejsca, trafione_cyfry, pewne_cyfry, odrzucone_cyfry)
+Aktualizuje zbiory cyfr: poprawnie umieszczonych, występujących na złych pozycjach oraz tych,
+które można odrzucić.
+'''
 
 def aktualizuj_zbiory(odgadniecie, trafione_miejsca, trafione_cyfry, pewne_cyfry, odrzucone_cyfry):
     for pos in trafione_miejsca:
@@ -168,11 +183,22 @@ def aktualizuj_zbiory(odgadniecie, trafione_miejsca, trafione_cyfry, pewne_cyfry
         if cyfra not in pewne_cyfry and cyfra not in trafione_cyfry:
             odrzucone_cyfry.add(cyfra)
 
+'''
+filtruj_mozliwosci(mozliwosci, trafione_miejsca, odgadniecie, trafione_cyfry, odrzucone_cyfry, pewne_cyfry)
+Przesiewa listę możliwych szyfrów, pozostawiając tylko te,
+które spełniają dotychczasowe warunki zgadywania.
+'''
 
 def filtruj_mozliwosci(mozliwosci, trafione_miejsca, odgadniecie, trafione_cyfry, odrzucone_cyfry, pewne_cyfry):
     return [mozliwosc for mozliwosc in mozliwosci if
             pasuje_do_oceny(mozliwosc, trafione_miejsca, odgadniecie, trafione_cyfry, odrzucone_cyfry, pewne_cyfry)]
 
+'''
+gra_z_komputerem(n)
+Komputer próbuje odgadnąć szyfr gracza, losując propozycje i otrzymując wskazówki o poprawnych cyfrach oraz ich pozycjach.
+Na podstawie tych informacji filtruje możliwe rozwiązania i kontynuuje zgadywanie,
+aż znajdzie poprawny kod lub wyczerpią się opcje.
+'''
 
 def gra_z_komputerem(n):
     print("Długość szyfru:", n)
