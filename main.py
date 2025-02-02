@@ -11,24 +11,25 @@ def main():
     '''
     code_length=-1
     type = "x"
+    name="-1"
     try:
         code_length=int(sys.argv[1])
         type = sys.argv[2]
+
     except:
         code_length=-1
         type = "x"
 
+    try:
+        name=sys.argv[3]
+    except:
+        name="-1"
+
 
     # rozgrywka w GUI
-    #GUI.Menu(code_length, type)
+    GUI.Menu(code_length, type, name)
 
-    n=4
-    guessed = ["_" for i in range(n)]
-    pozycje = gaming.initpozycje(n)
-    liczby=gaming.initliczby()
-    opcjenapozycji = gaming.initopcjenapozycji(n)
 
-    gaming.autoguessingv2(7)
 
 
 if __name__ == '__main__':

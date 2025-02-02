@@ -5,23 +5,24 @@ from tkinter import messagebox
 import gaming
 from gaming import PVPpozycje, updateguessed, PVPliczby, initpozycje, initliczby
 
+import sqlite3
+
 
 class Menu:
-    def __init__(self, arglength, argtype):
-        self.root = tk.Tk()
-        self.root.geometry('500x500')
-        self.root.iconbitmap("icon.ico")
-        self.root.resizable(False, False)
-        self.root.title('Odgadywanie')
+    def __init__(self, arglength, argtype, name):
+        from tkinter.simpledialog import askstring
+        from tkinter.messagebox import showinfo
+        if name=="-1":
+
+            self.name = askstring('Imie', 'Jak się nazywasz?')
+            showinfo('Witaj!', 'Hej, {}'.format(self.name))
+        else:
+            self.name = name
+
+
 
         self.arglength = arglength
         self.argtype = argtype
-
-        comp_button = tk.Button(self.root, text="Graj z komputerem", command=self.computer,padx=50,pady=50)
-        comp_button.pack(padx=50,pady=50)
-
-        pvp_button = tk.Button(self.root, text="Graj z człowiekiem", command=self.PVP,padx=50,pady=50)
-        pvp_button.pack(padx=0,pady=50)
 
         if self.arglength>0 and (self.argtype=="pvp" or self.argtype=="PVP"):
             self.PVP()
@@ -29,12 +30,30 @@ class Menu:
         if self.arglength>0 and (self.argtype=="pvc" or self.argtype=="PVC"):
             self.PVC()
 
+
+
+        self.root = tk.Tk()
+        self.root.geometry('500x500')
+        self.root.iconbitmap("icon.ico")
+        self.root.resizable(False, False)
+        self.root.title('Odgadywanie')
+
+        comp_button = tk.Button(self.root, text="Graj z komputerem", command=self.computer,padx=40,pady=40)
+        comp_button.pack(padx=0,pady=10)
+
+        pvp_button = tk.Button(self.root, text="Graj z człowiekiem", command=self.PVP,padx=40,pady=40)
+        pvp_button.pack(padx=0,pady=50)
+
+        score_button = tk.Button(self.root, text="Tablica wyników", command=self.score,padx=40,pady=40)
+        score_button.pack(padx=0, pady=10)
+
+
         self.root.mainloop()
 
     def computer(self):
       #  print("Gra z komputerem")
         self.root.destroy()
-        computerGUI(self.arglength)
+        computerGUI(self.arglength,self.name)
 
     def PVP(self):
         print("Gra z człowiekiem")
@@ -43,7 +62,14 @@ class Menu:
 
     def PVC(self):
         self.root.destroy()
-        PlayerGuess(self.arglength)
+        PlayerGuess(self.arglength, self.name)
+
+    def score(self):
+        conn = sqlite3.connect('wyniki.db')
+        cursor = conn.cursor()
+        tablica = cursor.execute("SELECT name as 'Nazwa', score as 'Wynik' FROM wyniki").fetchall()
+        conn.close()
+        print(tablica)
 
 class PVPGUI:
 
@@ -213,7 +239,8 @@ class PVPGUI:
 
 
 class computerGUI:
-    def __init__(self,arglength):
+    def __init__(self,arglength, name):
+        self.name = name
         self.root = tk.Tk()
         self.arglength = arglength
         self.root.geometry('500x500')
@@ -230,7 +257,7 @@ class computerGUI:
         self.root.mainloop()
     def playerguess(self):
         self.root.destroy()
-        PlayerGuess(self.arglength)
+        PlayerGuess(self.arglength, self.name)
 
     def computerguess(self):
         print("start")
@@ -271,7 +298,8 @@ class rules:
         return self.length
 
 class PlayerGuess:
-    def __init__(self,arglength):
+    def __init__(self,arglength, name):
+        self.name = name
         self.length = 0
         self.arglength = arglength
         if self.arglength > 0:
@@ -301,7 +329,9 @@ class PlayerGuess:
 
         self.root.protocol("WM_DELETE_WINDOW", self.close)
 
+        self.iterations =0
         while(self.gaming):
+            self.iterations +=1
             self.guess()
 
             count = 0
@@ -314,8 +344,28 @@ class PlayerGuess:
                 self.gaming = False
 
         messagebox.showinfo("Wygrana!", "Brawo! Zgadłeś szyfr komputera! Było to: "+str(self.szyfr))
+
+        if self.name!="-1":
+
+
+
+            conn = sqlite3.connect("wyniki.db")
+            c = conn.cursor()
+
+            id = c.execute("SELECT COUNT(ID) FROM WYNIKI").fetchone()[0] + 1
+
+            score = (1/(self.iterations-1))*1000
+            inscore = int(score)
+
+            c.execute("INSERT INTO WYNIKI (ID,NAME,SCORE) VALUES (?,?,?)", (id,self.name,inscore))
+
+            conn.commit()
+            conn.close()
+
+
+
         self.root.destroy()
-        Menu(-1,"x")
+        Menu(-1,"x", self.name)
 
     def guess(self):
         self.root.title("Zgaduj!")
