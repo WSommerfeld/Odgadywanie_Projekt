@@ -1,5 +1,6 @@
 import random
-
+import sys
+from os import remove
 
 '''
 inicjalizacja tablicy pozycji na których znajduje
@@ -73,13 +74,19 @@ wpisać tyle razy ile się powtarza
 def PVPliczby(liczby, liczbyinput):
     liczbyinput=liczbyinput.split(",")
     length = len(liczbyinput)
+
+    newliczby = initliczby()
     try:
         for i in range(length):
-            liczby[int(liczbyinput[i])]+=1
+            newliczby[int(liczbyinput[i])]+=1
     except IndexError:
         print("indeks poza listą")
     except ValueError:
         x=1
+
+    for i in range(10):
+        if newliczby[i]>liczby[i]:
+            liczby[i]=newliczby[i]
 
 def updateguessed(guessed, pozycje, traf):
      length = len(guessed)
@@ -233,7 +240,166 @@ def autoguessing(n, correctszyfr):
         x+=1
         print(x,": ",bestszyfr)
 
+def initopcjenapozycji(n):
+    opcjenapozycji = [[i for i in range(10)] for j in range(n)]
+    return opcjenapozycji
+
+def updateinfo(guessed, traf, pozycje, liczby, opcjenapozycji, n, pozycjeinput, liczbyinput):
+
+    PVPpozycje(pozycje, pozycjeinput)
+    PVPliczby(liczby, liczbyinput)
+
+    #aktualizacja rozwiazania
+    for i in range(n):
+        if pozycje[i] == True:
+            guessed[i] = traf[i]
+            if liczby[traf[i]] != 0:
+                liczby[traf[i]] = liczby[traf[i]]-1
+
+        if pozycje[i] == False:
+            try:
+                opcjenapozycji[i].remove(traf[i])
+            except:
+                x=1
 
 
 
 
+
+def onetimeguess(guessed, liczby, opcjenapozycji, n):
+    traf=[guessed[i] for i in range(n)]
+
+
+    cyfrydowstawienia = []
+
+    for i in range(10):
+        for j in range(int(liczby[i])):
+            cyfrydowstawienia.append(i)
+
+    print("Cyfry do wstawienia: ",cyfrydowstawienia)
+
+    #wstawianie z listy liczby
+
+    for i in range(n):
+        if traf[i] == "_":
+            if len(cyfrydowstawienia)>0:
+                for j in range(len(cyfrydowstawienia)):
+                    print("próba")
+                    wstaw=cyfrydowstawienia[j]
+
+                    git = False
+
+                    for k in range(len(opcjenapozycji[i])):
+
+
+                        if opcjenapozycji[i][k] == wstaw:
+                            git = True
+                            break
+
+                    if git:
+                        traf[i]=wstaw
+                        #print(traf[i], " wstawiono")
+                        cyfrydowstawienia.remove(wstaw)
+                        break
+
+
+
+    #wstawianie losowe
+    for i in range(n):
+        if traf[i] == "_":
+            opcjei = opcjenapozycji[i]
+            try:
+                traf[i]=random.choice(opcjei)
+            except IndexError:
+                print("Nie gram z oszustami!")
+                sys.exit(0)
+
+
+    return traf
+
+
+
+def autoguessingv2(n):
+    liczby = initliczby()
+    opcjenapozycji = initopcjenapozycji(n)
+    guessed = ["_" for i in range(n)]
+    traf = [0 for i in range(n)]
+
+
+    #dodac sprawdzanie ile opcji na pozycji
+    while(True):
+        pozycje = initpozycje(n)
+
+        print("Traf ",traf)
+        print("Pozycje")
+        pozycjeinput = input()
+        print("Liczby")
+        liczbyinput = input()
+        updateinfo(guessed, traf, pozycje, liczby, opcjenapozycji, n, pozycjeinput, liczbyinput)
+        print(guessed)
+        traf=onetimeguess(guessed, liczby, opcjenapozycji, n)
+        print(guessed)
+
+
+        count=0
+        for i in range(n):
+            if guessed[i] == "_":
+                count+=1
+        if count == 0:
+            break
+
+
+
+
+
+
+
+
+
+
+
+# Wprowadzamy liczbe n (dlugosc szyfru) a potem szyfr zlozony z n cyfr #
+#--------------------------------------------------------#
+#while True:
+    #try:
+        #n = int(input("Podaj dodatnią liczbę całkowitą: "))
+        #if (n > 0):
+            #break  # Wyjście z pętli, gdy liczba jest dodatnia #
+        #else:
+            #print("///Błąd - Liczba musi być dodatnia calkowita///")
+    #except ValueError:
+        #print("///Błąd - Wprowadź poprawną wartość///")
+
+#--------------------------------------------------------#
+def first_player(n):
+    Gracz=[]
+    j=1
+    print("///Wprowadz cyfry do szyfru",n,"-elementowego///")
+    while(j<=n):
+        cyfra = int(input())
+        Gracz.append(cyfra)
+        j=j+1
+    return(Gracz)
+#--------------------------------------------------------#
+
+#--------------------------------------------------------#
+def guess_game(n,Gracz):
+    # Na samym poczatku jest losowo generowana lista zlozona z n cyfr #
+    Komputer=[random.randint(0,9) for _ in range(n)]
+    trafione=[]
+    # Jest wprowadzana pomocnicza n-elem. lista 'trafione' wypelniona 'X' #
+    for i in range(n):
+        trafione.append('X')
+    while(Komputer != Gracz):
+        i=0
+        while(i <= n-1):
+            if(trafione[i] == 'X'): # Jesli w liscie 'trafione' w danym miejscu i nadal jest 'X', generowana jest losowa cyfra w liscie 'Komputer' w tym samym miejscu i #
+                Komputer[i]=random.randint(0,9)
+                #print("Komputer zgaduje:",Komputer)
+            # Na biezaco sprawdzane jest czy mamy juz trafiona cyfre, jezeli tak to zamieniamy 'X' na ta cyfre #
+                if(Komputer[i] == Gracz[i]):
+                    print("Komputer zgadl liczbe:",Gracz[i],"na pozycji:",i)
+                    trafione[i]=Komputer[i]
+                    print(trafione)
+                    i=i+1
+    print("Gratulacje komputerze - udalo ci sie odgadnac szyfr")
