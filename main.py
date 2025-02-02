@@ -28,7 +28,7 @@ def main():
     liczby=gaming.initliczby()
     opcjenapozycji = gaming.initopcjenapozycji(n)
 
-    gaming.onetimeguess(guessed,  liczby,opcjenapozycji, n)
+    gaming.autoguessingv2(7)
 
 
 if __name__ == '__main__':

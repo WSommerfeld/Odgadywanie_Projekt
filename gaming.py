@@ -1,4 +1,6 @@
 import random
+import sys
+from os import remove
 
 '''
 inicjalizacja tablicy pozycji na których znajduje
@@ -72,13 +74,19 @@ wpisać tyle razy ile się powtarza
 def PVPliczby(liczby, liczbyinput):
     liczbyinput=liczbyinput.split(",")
     length = len(liczbyinput)
+
+    newliczby = initliczby()
     try:
         for i in range(length):
-            liczby[int(liczbyinput[i])]+=1
+            newliczby[int(liczbyinput[i])]+=1
     except IndexError:
         print("indeks poza listą")
     except ValueError:
         x=1
+
+    for i in range(10):
+        if newliczby[i]>liczby[i]:
+            liczby[i]=newliczby[i]
 
 def updateguessed(guessed, pozycje, traf):
      length = len(guessed)
@@ -233,7 +241,7 @@ def autoguessing(n, correctszyfr):
         print(x,": ",bestszyfr)
 
 def initopcjenapozycji(n):
-    opcjenapozycji = [[i for i in range(9)] for j in range(n)]
+    opcjenapozycji = [[i for i in range(10)] for j in range(n)]
     return opcjenapozycji
 
 def updateinfo(guessed, traf, pozycje, liczby, opcjenapozycji, n, pozycjeinput, liczbyinput):
@@ -245,6 +253,8 @@ def updateinfo(guessed, traf, pozycje, liczby, opcjenapozycji, n, pozycjeinput, 
     for i in range(n):
         if pozycje[i] == True:
             guessed[i] = traf[i]
+            if liczby[traf[i]] != 0:
+                liczby[traf[i]] = liczby[traf[i]]-1
 
         if pozycje[i] == False:
             try:
@@ -257,42 +267,86 @@ def updateinfo(guessed, traf, pozycje, liczby, opcjenapozycji, n, pozycjeinput, 
 
 
 def onetimeguess(guessed, liczby, opcjenapozycji, n):
-    traf= guessed
+    traf=[guessed[i] for i in range(n)]
+
+
     cyfrydowstawienia = []
 
-    for i in range(9):
+    for i in range(10):
         for j in range(int(liczby[i])):
-            cyfrydowstawienia.append(str(i))
+            cyfrydowstawienia.append(i)
+
+    print("Cyfry do wstawienia: ",cyfrydowstawienia)
 
     #wstawianie z listy liczby
+
     for i in range(n):
-        if guessed[i] == "_":
-            if len(cyfrydowstawienia)!=0:
+        if traf[i] == "_":
+            if len(cyfrydowstawienia)>0:
                 for j in range(len(cyfrydowstawienia)):
-                    wstaw=random.choice(cyfrydowstawienia)
-                    if opcjenapozycji[i].count(wstaw)!=0:
+                    print("próba")
+                    wstaw=cyfrydowstawienia[j]
+
+                    git = False
+
+                    for k in range(len(opcjenapozycji[i])):
+
+
+                        if opcjenapozycji[i][k] == wstaw:
+                            git = True
+                            break
+
+                    if git:
                         traf[i]=wstaw
+                        #print(traf[i], " wstawiono")
                         cyfrydowstawienia.remove(wstaw)
                         break
 
+
+
     #wstawianie losowe
     for i in range(n):
-        if guessed[i] == "_":
-            traf[i]=random.choice(opcjenapozycji)
+        if traf[i] == "_":
+            opcjei = opcjenapozycji[i]
+            try:
+                traf[i]=random.choice(opcjei)
+            except IndexError:
+                print("Nie gram z oszustami!")
+                sys.exit(0)
+
+
+    return traf
 
 
 
-def autoguessingv2(szyfr,n):
-    pozycje = initpozycje(n)
+def autoguessingv2(n):
     liczby = initliczby()
     opcjenapozycji = initopcjenapozycji(n)
     guessed = ["_" for i in range(n)]
-    traf = ["0" for i in range(n)]
-    correct = [szyfr[i] for i in range(n)]
-
-    
+    traf = [0 for i in range(n)]
 
 
+    #dodac sprawdzanie ile opcji na pozycji
+    while(True):
+        pozycje = initpozycje(n)
+
+        print("Traf ",traf)
+        print("Pozycje")
+        pozycjeinput = input()
+        print("Liczby")
+        liczbyinput = input()
+        updateinfo(guessed, traf, pozycje, liczby, opcjenapozycji, n, pozycjeinput, liczbyinput)
+        print(guessed)
+        traf=onetimeguess(guessed, liczby, opcjenapozycji, n)
+        print(guessed)
+
+
+        count=0
+        for i in range(n):
+            if guessed[i] == "_":
+                count+=1
+        if count == 0:
+            break
 
 
 
