@@ -24,7 +24,14 @@ Program umożliwia wywoływanie go z linii komend z określonymi parametrami. Ab
 ### Instalacja środowiska wirtualnego 
 W plikach projektu znajduje się skrypt umożliwiający automatyczną instalację środowiska wirtualnego venv. Wystarczy uruchomić skrypt `windowsinstalacja.bat`. Po stosownej inicjalizacji środowiska i pobraniu niezbędnych paczek, można przejść do uruchomienia programu. Plik `requirements.txt` został wygenerowany przy pomocy narzędzia pipreqs.
 ### Plik wykonywalny 
-Dodatkowo przy pomocy narzędzia pipinstaller wygenerowano plik wykonywalny main.exe, który umożliwia bezpośrednie uruchomienie programu.
-
+Dodatkowo przy pomocy narzędzia pipinstaller wygenerowano plik wykonywalny main.exe, który umożliwia bezpośrednie uruchomienie programu. 
+## Struktura projektu 
+Projekt zasadniczo składa się z trzech plików: main.py, gaming.py, GUI.py. 
+### main.py 
+Odpowiada za obsługe argumentów podawanych przez linię komend i właściwe wywołanie interfejsu graficznego. 
+### gaming.py 
+Zawiera wszelkie funkcje potrzebne do rozgrywek w trybie tekstowym. Zawiera funkcje modyfikujące dane, parsujące dane wejściowe oraz algorytmy zgadywania wraz z odpowiednimi dla każdej rozgrywki TUI. 
+### GUI.py 
+Odpowiada za interfejs graficzny programu. Bezpośrednio korzysta z funkcji z `gaming.py`, lub zawiera zmodyfikowane funkcje z tego pliku, w taki sposób aby były kompatybilne z interfejsem graficznym i konsekwencjami jego użytkowania (inna niż w przypadku TUI obsługa strumieni wejścia/wyjścia).
 
 
