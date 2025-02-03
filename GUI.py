@@ -3,7 +3,7 @@ import sys
 import tkinter as tk
 from tkinter import messagebox, END
 import gaming
-from gaming import PVPpozycje, updateguessed, PVPliczby, initpozycje, initliczby
+from gaming import PVPpozycje, updateguessed, PVPliczby, initpozycje, initliczby, initopcjenapozycji, updateinfo, onetimeguess
 
 import sqlite3
 
@@ -19,7 +19,9 @@ class Menu:
         if name=="-1":
 
             self.name = askstring('Imie', 'Jak się nazywasz?')
-            showinfo('Witaj!', 'Hej, {}'.format(self.name))
+            if self.name==None or self.name=="":
+                self.name = "Bezimienny"
+            showinfo('Witaj!', 'Hej {}'.format(self.name))
         else:
             self.name = name
 
@@ -31,8 +33,6 @@ class Menu:
 
         if self.arglength>0 and (self.argtype=="pvc" or self.argtype=="PVC"):
             self.PVC()
-
-
 
         self.root = tk.Tk()
         self.root.geometry('500x500')
@@ -48,7 +48,6 @@ class Menu:
 
         score_button = tk.Button(self.root, text="Tablica wyników", command=self.score,padx=40,pady=40)
         score_button.pack(padx=0, pady=10)
-
 
         self.root.mainloop()
 
@@ -328,7 +327,8 @@ class computerGUI:
     komputer zgaduje szyfr gracza
     '''
     def computerguess(self):
-        print("start")
+        self.root.destroy()
+        ComputerGuess(self.arglength, self.name)
 
     '''
     Klasa odpowiedzialna za okno, w którym
@@ -391,7 +391,6 @@ class PlayerGuess:
 
 
         self.szyfr = [str(random.randint(0,9)) for i in range(int(self.length))]
-        print(self.szyfr)
         self.iterations = 0
         self.guessed = ["_" for i in range(int(self.length))]
         self.traf = "traf"
@@ -518,3 +517,65 @@ class PlayerGuess:
         for widget in self.root.winfo_children():
             widget.pack_forget()
         self.root.quit()
+
+class ComputerGuess:
+    def __init__(self, arglength, name):
+        self.name = name
+        self.length = 0
+        self.arglength = arglength
+        if self.arglength > 0:
+            self.length = self.arglength
+        else:
+            self.length = rules().length
+            if self.length == 0 or self.length == "" or int(self.length) <= 0:
+                return
+
+        self.iterations = 0
+        self.liczby = initliczby()
+        self.opcjenapozycji = initopcjenapozycji(int(self.length))
+        self.traf = [random.randint(0,9)  for i in range(int(self.length))]
+        self.guessed = guessed = ["_" for i in range(int(self.length))]
+        self.gaming = True
+
+        self.root = tk.Tk()
+        self.root.iconbitmap("icon.ico")
+        self.root.title('Czy komputer zgadł?')
+        self.root.geometry('500x600')
+        self.root.resizable(False, False)
+
+        self.root.protocol("WM_DELETE_WINDOW", self.close)
+
+
+
+        while self.gaming:
+            self.pozycje = initpozycje(int(self.length))
+            print(self.guessed)
+            print("Traf ", self.traf)
+            print("Pozycje")
+            pozycjeinput = input()
+            print("Liczby")
+            liczbyinput = input()
+            updateinfo(self.guessed, self.traf, self.pozycje, self.liczby, self.opcjenapozycji, int(self.length), pozycjeinput, liczbyinput)
+
+            self.traf = onetimeguess(self.guessed, self.liczby, self.opcjenapozycji, int(self.length))
+
+            count = 0
+            for i in range(int(self.length)):
+                if guessed[i] == "_":
+                    count += 1
+            if count == 0:
+                self.gaming = False
+
+    '''
+    Przyjęcie danych od gracza
+    '''
+    def input(self):
+        print("input")
+
+    '''
+    Obsługa zamknięcia okna
+    '''
+    def close(self):
+        if messagebox.askokcancel("Zakończ grę", "Czy na pewno chcesz zakończyć rozgrywkę?"):
+            self.root.destroy()
+            sys.exit(0)
