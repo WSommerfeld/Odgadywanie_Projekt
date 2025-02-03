@@ -533,7 +533,9 @@ class PlayerGuess:
         for widget in self.root.winfo_children():
             widget.pack_forget()
         self.root.quit()
-
+'''
+Rozgrywka, w której komputer zgaduje szyfr gracza
+'''
 class ComputerGuess:
     def __init__(self, arglength, name):
         self.name = name
