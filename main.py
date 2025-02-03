@@ -3,7 +3,6 @@ import GUI
 import gaming
 def main():
 
-
     '''
     --help ;)
     '''
@@ -22,8 +21,6 @@ def main():
             print('Przy braku argumentów, program uruchomi się w menu pocztkowym')
 
             return
-
-
     except:
         pass
 
@@ -46,11 +43,10 @@ def main():
         name="-1"
 
 
-    # rozgrywka w GUI
+    '''
+    Uruchomienie menu w interfejsie graficznym programu
+    '''
     GUI.Menu(code_length, type, name)
-
-
-
 
 
 if __name__ == '__main__':
