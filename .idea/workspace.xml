@@ -5,13 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f789c96f-43a3-47ab-92ea-48fc4c529e97" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Pipfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/linuxinstalajca.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/windowsinstalacja.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Odgadywanie_Projekt.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Odgadywanie_Projekt.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gaming.py" beforeDir="false" afterPath="$PROJECT_DIR$/gaming.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,7 +101,7 @@
       <workItem from="1737823043700" duration="1148000" />
       <workItem from="1737830875250" duration="2372000" />
       <workItem from="1737833293862" duration="6438000" />
-      <workItem from="1738532092548" duration="6217000" />
+      <workItem from="1738532092548" duration="7652000" />
     </task>
     <servers />
   </component>
