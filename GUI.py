@@ -548,29 +548,79 @@ class ComputerGuess:
 
 
         while self.gaming:
-            self.pozycje = initpozycje(int(self.length))
-            print(self.guessed)
-            print("Traf ", self.traf)
-            print("Pozycje")
-            pozycjeinput = input()
-            print("Liczby")
-            liczbyinput = input()
-            updateinfo(self.guessed, self.traf, self.pozycje, self.liczby, self.opcjenapozycji, int(self.length), pozycjeinput, liczbyinput)
+            self.guess()
 
-            self.traf = onetimeguess(self.guessed, self.liczby, self.opcjenapozycji, int(self.length))
 
-            count = 0
-            for i in range(int(self.length)):
-                if guessed[i] == "_":
-                    count += 1
-            if count == 0:
-                self.gaming = False
+
+
+
+
+    def guess(self):
+        self.pozycje = initpozycje(int(self.length))
+        self.root.title("Czy komputer zgadł?")
+
+        text_var = tk.StringVar()
+        text_var.set(self.traf)
+        tk.Label(self.root, textvariable=text_var,
+                 font=("Arial", 16, "bold")).pack(pady=10)
+
+        text_var1 = tk.StringVar()
+        text_var1.set("Na których pozycjach ")
+        tk.Label(self.root, textvariable=text_var1,
+                 font=("Arial", 16, "bold")).pack(pady=5)
+
+        text_var2 = tk.StringVar()
+        text_var2.set("znajdują się prawidłowe cyfry?")
+        tk.Label(self.root, textvariable=text_var2,
+                 font=("Arial", 16, "bold")).pack(pady=10)
+
+        self.entryp = tk.Entry(self.root, width=20, font=('Arial 16'))
+        self.entryp.pack(pady=20)
+
+        text_var3 = tk.StringVar()
+        text_var3.set("Jakie cyfry wystąpiły")
+        tk.Label(self.root, textvariable=text_var3,
+                 font=("Arial", 16, "bold")).pack(pady=5)
+
+        text_var4 = tk.StringVar()
+        text_var4.set("na nieprawidłowych pozycjach?")
+        tk.Label(self.root, textvariable=text_var4,
+                 font=("Arial", 16, "bold")).pack(pady=10)
+
+        self.entryl = tk.Entry(self.root, width=20, font=('Arial 16'))
+        self.entryl.pack(pady=20)
+
+        self.setp_button = tk.Button(self.root, font=('Arial 16'), text="Zatwierdź",
+                                     command=self.input, padx=50, pady=50)
+        self.setp_button.pack(pady=10)
+
+        self.correctbutton = tk.Button(self.root, font=('Arial 12'), text="Komputer zgadł mój szyfr",
+                                       command=self.correct, padx=10, pady=10)
+        self.correctbutton.pack(pady=10)
+
+        self.root.mainloop()
 
     '''
     Przyjęcie danych od gracza
     '''
     def input(self):
-        print("input")
+        pozycjeinput = self.entryp.get()
+        liczbyinput = self.entryl.get()
+        updateinfo(self.guessed, self.traf, self.pozycje, self.liczby, self.opcjenapozycji, int(self.length),
+                   pozycjeinput, liczbyinput)
+
+        self.traf = onetimeguess(self.guessed, self.liczby, self.opcjenapozycji, int(self.length))
+
+        count = 0
+        for i in range(int(self.length)):
+            if self.guessed[i] == "_":
+                count += 1
+        if count == 0:
+            self.gaming = False
+
+        for widget in self.root.winfo_children():
+            widget.pack_forget()
+        self.root.quit()
 
     '''
     Obsługa zamknięcia okna
@@ -579,3 +629,12 @@ class ComputerGuess:
         if messagebox.askokcancel("Zakończ grę", "Czy na pewno chcesz zakończyć rozgrywkę?"):
             self.root.destroy()
             sys.exit(0)
+
+    '''
+    Komputer odgadł szyfr gracza
+    '''
+    def correct(self):
+        self.gaming=False
+        for widget in self.root.winfo_children():
+            widget.pack_forget()
+        self.root.quit()
