@@ -14,6 +14,7 @@ lub wyświetlamy tablicę wyników
 '''
 class Menu:
     def __init__(self, arglength, argtype, name):
+        self.root = None
         from tkinter.simpledialog import askstring
         from tkinter.messagebox import showinfo
         if name=="-1":
