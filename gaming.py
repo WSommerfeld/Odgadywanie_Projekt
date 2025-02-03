@@ -1,6 +1,6 @@
 import random
 import sys
-
+from tkinter import messagebox
 
 '''
 inicjalizacja tablicy pozycji na których znajduje
@@ -404,11 +404,8 @@ def onetimeguess(guessed, liczby, opcjenapozycji, n):
         if traf[i] == "_":
             if len(cyfrydowstawienia)>0:
                 for j in range(len(cyfrydowstawienia)):
-                    print("próba")
                     wstaw=cyfrydowstawienia[j]
-
                     git = False
-
                     for k in range(len(opcjenapozycji[i])):
 
 
@@ -428,7 +425,7 @@ def onetimeguess(guessed, liczby, opcjenapozycji, n):
             try:
                 traf[i]=random.choice(opcjei)
             except IndexError:
-                print("Nie gram z oszustami!")
+                messagebox.showerror("Oszust!","Nie gram z oszustami!")
                 sys.exit(0)
 
     return traf

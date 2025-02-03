@@ -31,8 +31,13 @@ class Menu:
         if self.arglength>0 and (self.argtype=="pvp" or self.argtype=="PVP"):
             self.PVP()
 
-        if self.arglength>0 and (self.argtype=="pvc" or self.argtype=="PVC"):
+        elif self.arglength>0 and (self.argtype=="pvc" or self.argtype=="PVC"):
             self.PVC()
+
+        elif self.arglength>0 and (self.argtype=="cvp" or self.argtype=="CVP"):
+            self.CVP()
+
+
 
         self.root = tk.Tk()
         self.root.geometry('500x500')
@@ -56,7 +61,7 @@ class Menu:
     za wybór typu rozgrywki z komputerem
     '''
     def computer(self):
-      #  print("Gra z komputerem")
+
         self.root.destroy()
         computerGUI(self.arglength,self.name)
 
@@ -65,17 +70,27 @@ class Menu:
     za rozgrywkę PVP
     '''
     def PVP(self):
-        print("Gra z człowiekiem")
-        self.root.destroy()
-        PVPGUI(self.arglength)
+        if(self.root != None):
+            self.root.destroy()
+        PVPGUI(self.arglength,self.name)
 
     '''
     Przejście do GUI odpowiedzialnego
     za rozgrywkę w której gracz zgaduje
     '''
     def PVC(self):
-        self.root.destroy()
+
         PlayerGuess(self.arglength, self.name)
+
+    '''
+    Przejście do GUI odpowiedzialnego
+    za rozgrywkę w której komputer zgaduje
+    '''
+    def CVP(self):
+
+        ComputerGuess(self.arglength, self.name)
+
+
 
     '''
     Otworzenie okna z tablicą
@@ -110,7 +125,8 @@ pomiędzy dwoma graczami
 '''
 class PVPGUI:
 
-    def __init__(self, arglength):
+    def __init__(self, arglength, name):
+        self.name = name
         self.length=0
         self.arglength = arglength
         if self.arglength>0:
@@ -150,7 +166,7 @@ class PVPGUI:
 
         messagebox.showinfo("Wygrana!", "Brawo! Zgadłeś szyfr gracza nr 2.")
         self.root.destroy()
-        Menu(-1,"x")
+        Menu(-1,"x",self.name)
 
     '''
     Obsługa zamknięcia okna
@@ -534,7 +550,7 @@ class ComputerGuess:
         self.liczby = initliczby()
         self.opcjenapozycji = initopcjenapozycji(int(self.length))
         self.traf = [random.randint(0,9)  for i in range(int(self.length))]
-        self.guessed = guessed = ["_" for i in range(int(self.length))]
+        self.guessed = ["_" for i in range(int(self.length))]
         self.gaming = True
 
         self.root = tk.Tk()
@@ -542,6 +558,7 @@ class ComputerGuess:
         self.root.title('Czy komputer zgadł?')
         self.root.geometry('500x600')
         self.root.resizable(False, False)
+        self.iterations=0
 
         self.root.protocol("WM_DELETE_WINDOW", self.close)
 
@@ -549,12 +566,17 @@ class ComputerGuess:
 
         while self.gaming:
             self.guess()
+            self.iterations+=1
+        messagebox.showinfo("Wygrana!", "Komputer zgadł twój szyfr w "+str(self.iterations)+" próbach")
+        self.root.destroy()
+        Menu(-1, "x", self.name)
 
 
 
 
-
-
+    '''
+    Jedna tura zgadywania
+    '''
     def guess(self):
         self.pozycje = initpozycje(int(self.length))
         self.root.title("Czy komputer zgadł?")

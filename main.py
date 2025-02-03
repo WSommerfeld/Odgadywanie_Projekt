@@ -5,13 +5,33 @@ def main():
 
 
     '''
+    --help ;)
+    '''
+
+    try:
+        entry = sys.argv[1]
+
+        if entry == '--help':
+            print('python main.py codelength gamemode')
+            print('Argumenty')
+            print('codelength   :długość kodu w rozgrywce; liczba całkowita')
+            print('gamemode     :rodzaj rozgrywki: ')
+            print('              pvp     :gra gracz vs gracz')
+            print('              pvc     :gra gracz vs komputer; gracz zgaduje')
+            print('              cvp     :gra gracz vs komputer; komputer zgaduje')
+            print('Przy braku argumentów, program uruchomi się w menu pocztkowym')
+
+            return
+
+
+    except:
+        pass
+
+    '''
     obsługa linii komend
     python main.py dlugość_szyfru rodzaj_rozgrywki
     rodzaj_rozgrywki € {"pvp", "PVP"}
     '''
-    code_length=-1
-    type = "x"
-    name="-1"
     try:
         code_length=int(sys.argv[1])
         type = sys.argv[2]
