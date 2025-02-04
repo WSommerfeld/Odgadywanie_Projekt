@@ -2,7 +2,8 @@
 Michał Kasjaniuk 287392  
 Maja Kołakowska 287360  
 Marcin Lasak 272886  
-Filip Urbański 287355 
+Filip Urbański 287355  
+
 3.02.2025: Zakończenie prac nad projektem
 
 ## Opis działania programu 
